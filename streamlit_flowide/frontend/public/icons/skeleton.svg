@@ -1,0 +1,86 @@
+ <svg viewBox="0 0 192 112" xmlns="http://www.w3.org/2000/svg">
+
+   <g id="left-addons" stroke="black" stroke-width="1px" >
+
+         <g id="addon-big">
+            <rect  y="16px" x="0px" width="60px" height="60px" fill="#00a6d3" rx="8px"/>
+            <image y="16px" x="0px" width="60px" height="60px"  />
+         </g>
+
+         <g id="addon-2">
+            <rect  y="16px" x="32px" width="28px" height="28px" fill="#00a6d3" rx="8px"/>
+            <image y="16px" x="32px" width="28px" height="28px" />
+         </g>
+         <g id="addon-1">
+            <rect  y="16px" x="0px" width="28px" height="28px" fill="#00a6d3" rx="8px"/>
+            <image y="16px" x="0px" width="28px" height="28px" />
+         </g>
+         <g id="addon-4">
+            <rect  y="48px" x="32px" width="28px" height="28px" fill="#00a6d3" rx="8px"/>
+            <image y="48px" x="32px" width="28px" height="28px"  />
+         </g>
+         <g id="addon-3">
+            <rect  y="48px" x="0px" width="28px" height="28px" fill="#00a6d3" rx="8px"/>
+            <image y="48px" x="0px" width="28px" height="28px"  />
+         </g>
+
+   </g>
+
+   <g id="status-bar">
+      
+      <g id="status-1">
+         <image x="64px" width="16px" height="16px"  />
+      </g>
+
+      <g id="status-2">
+         <image x="80px" width="16px" height="16px"  />
+      </g>
+
+      <g id="status-3">
+         <image x="96px" width="16px" height="16px"  />
+      </g>
+
+      <g id="status-4">
+         <image x="112px" width="16px" height="16px"  />
+      </g>
+
+   </g>
+
+   <g id="main-icon">
+      <g id="main-plate" data-name="base" fill="#eab000">
+            <path
+                d="M 74.34 79.7975 H 69 a 4.75 4.75 90 0 1 -4.75 -4.75 v -54 a 4.75 4.75 90 0 1 4.75 -4.75 H 123 a 4.75 4.75 90 0 1 4.75 4.75 v 54 a 4.75 4.75 90 0 1 -4.75 4.75 H 88.355 L 95.25 110.5 Z"
+                style="fill-rule:evenodd"/>
+            <path
+                d="M 123 16.5475 a 4.5 4.5 90 0 1 4.5 4.5 v 54 a 4.5 4.5 90 0 1 -4.5 4.5 H 88.0425 l 0.1375 0.61 l 6.5475 29.1225 l -20.105 -29.5 l -0.15 -0.22 H 69 a 4.5 4.5 90 0 1 -4.5 -4.5 v -54 a 4.5 4.5 90 0 1 4.5 -4.5 H 123 m 0 -0.5 H 69 a 5 5 90 0 0 -5 5 v 54 a 5 5 90 0 0 5 5 H 74.2075 l 21.585 31.6825 L 88.6675 80.0475 H 123 a 5 5 90 0 0 5 -5 v -54 a 5 5 90 0 0 -5 -5 Z" fill="black"/>
+      </g>
+      <rect id="icon-plate" y="24px" x="72px" width="48px" height="48px" fill="#fff" rx="4px" stroke-width="1" stroke="rgba(120,120,120,0.4)"/>
+      <image id="main-icon" y="24px" x="72px" width="52px" height="52px"  />
+   </g>
+
+   <g id="right-addons" stroke="black">
+
+         <g id="addon-big">
+            <rect  y="16px" x="132px" width="60px" height="60px" fill="#00a6d3" rx="8px"/>
+            <image y="16px" x="132px" width="60px" height="60px"  />
+         </g>
+
+         <g id="addon-1">
+            <rect  y="16px" x="132px" width="28px" height="28px" fill="#00a6d3" rx="8px"/>
+            <image y="16px" x="132px" width="28px" height="28px"  />
+         </g>
+         <g id="addon-2">
+            <rect  y="16px" x="164px" width="28px" height="28px" fill="#00a6d3" rx="8px"/>
+            <image y="16px" x="164px" width="28px" height="28px"  />
+         </g>
+         <g id="addon-3">
+            <rect  y="48px" x="132px" width="28px" height="28px" fill="#00a6d3" rx="8px"/>
+            <image y="48px" x="132px" width="28px" height="28px"  />
+         </g>
+         <g id="addon-4">
+            <rect  y="48px" x="164px" width="28px" height="28px" fill="#00a6d3" rx="8px"/>
+            <image y="48px" x="164px" width="28px" height="28px"  />
+         </g>
+   </g>
+
+ </svg>
