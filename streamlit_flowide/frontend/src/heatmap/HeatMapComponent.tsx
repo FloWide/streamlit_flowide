@@ -19,7 +19,7 @@ class HeatMapComponent extends MapBaseComponent {
 
         this.heatLayer = new HeatLayer(data,options);
         this.heatLayer.addTo(this.map);
-        return true;
+        return false;
     }
 
     processData() {

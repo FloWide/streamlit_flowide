@@ -2,6 +2,7 @@ import streamlit as st
 from streamlit_flowide import *
 import json
 from time import sleep
+from random import randint
 
 mapConfig = json.loads("""{"lowerBounds":[-20,-20],"transform":[[0.00146131,-6.20697248,15.87566848],[6.20697248,0.00146131,-19.47182787],[0,0,1]],"untransform":[[0.00003793,0.16110913,3.13648711],[-0.16110913,0.00003793,2.55845372],[0,0,1]],"upperBounds":[20,20]}""")
 
@@ -18,7 +19,7 @@ PlayBack(config,[
                 'name':'CREATE_MARKER',
                 'args':{
                     'id':'12',
-                    'position':[0,0]
+                    'position':[randint(0,10),0]
                 }
             }
         },
@@ -49,16 +50,16 @@ PlayBack(config,[
 HeatMap(
     config,
     [
-        [0.0,0.0,0.5],
-        [1.0,1.0,1.0],
+        [randint(0,10),0.0,1],
+        [1.0,1.0,0.5],
         [4.0,4,0.7],
-        [4.307988081148033,3.64313005324229,2.52]
+        [4.307988081148033,3.64313005324229,0.5]
     ],
     None
 )
 
 Spaghetti(config,[
-        [0.0,0.0,1000],
+        [randint(0,10),0.0,1000],
         [1.0,1.0,5000],
         [4.0,4,8000],
         [4.307988081148033,3.64313005324229,10000]

@@ -1,6 +1,5 @@
 import MapBaseComponent from "../MapBaseComponent";
 import {PlayBack, PlayControl} from '@flowide/leaflet-playback-plugin';
-import { withStreamlitConnection } from "streamlit-component-lib";
 
 
 class PlayBackComponent extends MapBaseComponent {
@@ -34,7 +33,7 @@ class PlayBackComponent extends MapBaseComponent {
         this.playback.addTo(this.map);
         this.playbackControl.addTo(this.map);
 
-        return true;
+        return false;
         
     }
 

@@ -1,4 +1,4 @@
-import { StreamlitComponentBase,ComponentProps } from "streamlit-component-lib";
+import { ComponentProps } from "streamlit-component-lib";
 import React,{RefObject, ReactNode} from 'react'
 import {CustomCRS, ImageOverlayExcludeCRS, MatrixTransformationConfig} from '@flowide/leaflet-custom-transformation'
 import {Map as LeafletMap,map as createMap, LatLngBounds} from 'leaflet';
