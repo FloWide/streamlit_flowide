@@ -33,14 +33,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install setuptools
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
+      - name: Get version from tag
+        uses: olegtarasov/get-tag@v2.1
+        id: tagName
+        with:
+          tagRegex: '(v)(?<version>[0-9]+\.[0-9]+\.[0-9])'
       - name: Build frontend and package python
         run: |
           cd streamlit_flowide/frontend
           npm install --silent
           CI=false npm run build
           cd ../..
-          python setup.py sdist bdist_wheel
+          python setup.py sdist bdist_wheel --version ${{steps.tagName.outputs.version}}
           zip -r build-artifacts.zip dist
       - name: Create Release
         id: create

@@ -1,9 +1,19 @@
+import sys
+
+version="DEV"
+
+if '--version' in sys.argv:
+    index = sys.argv.index('--version')
+    sys.argv.pop(index)
+    version = sys.argv.pop(index)
+
+
 import setuptools
 
 
 setuptools.setup(
     name="streamlit_flowide",
-    version="0.0.1",
+    version=version,
     author="FloWide Ltd.",
     description="A collection of custom components for streamlit",
     packages=setuptools.find_packages(),
