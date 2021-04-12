@@ -12,7 +12,6 @@ class ComponentSelector extends StreamlitComponentBase {
 
 
     render(): React.ReactNode {
-        console.log("component select render")
         return this.getComponent(this.props.args["component"]);
     }
 

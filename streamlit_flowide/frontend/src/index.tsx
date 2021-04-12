@@ -4,6 +4,7 @@ import ReactDOM from "react-dom"
 import 'leaflet/dist/leaflet.css';
 import '@flowide/leaflet-playback-plugin/dist/index.min.css'
 import '@flowide/leaflet-spaghetti-plugin/dist/index.css'
+import '@fortawesome/fontawesome-free/css/all.css'
 
 
 import icon from 'leaflet/dist/images/marker-icon.png';

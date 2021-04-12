@@ -1,7 +1,8 @@
 import { ComponentProps } from "streamlit-component-lib";
 import React,{RefObject, ReactNode} from 'react'
 import {CustomCRS, ImageOverlayExcludeCRS, MatrixTransformationConfig} from '@flowide/leaflet-custom-transformation'
-import {Map as LeafletMap,map as createMap, LatLngBounds} from 'leaflet';
+import {Map as LeafletMap,map as createMap, LatLngBounds,easyButton} from 'leaflet';
+import 'leaflet-easybutton';
 
 interface MapConfig {
     map:MatrixTransformationConfig & {lowerBounds:[number,number];upperBounds:[number,number]};
@@ -64,7 +65,6 @@ class MapBaseComponent<S = {}> extends React.PureComponent<ComponentProps,S> {
     }
 
     protected setupMap(config:MapConfig) {
-        console.log("setup map")
         const lowerBounds = config.map?.lowerBounds ?? [-20,-20];
         const upperBounds = config.map?.upperBounds ?? [20,20];
 
@@ -82,9 +82,29 @@ class MapBaseComponent<S = {}> extends React.PureComponent<ComponentProps,S> {
             this.imageOverlay = new ImageOverlayExcludeCRS(config.image,new LatLngBounds(lowerBounds,upperBounds))
             this.imageOverlay.addTo(this.map)
             this.isRendered = true;
+            easyButton({
+                states: [{
+                        stateName: 'to-fullscreen',        // name the state
+                        icon:      'fas fa-expand',               // and define its properties
+                        title:     'fullscreen',      // like its title
+                        onClick:(btn, map) => {       // and its callback
+                            this.container.current?.requestFullscreen();
+                            btn.state('to-nornmal');    // change state on click!
+                        }
+                    }, {
+                        stateName: 'to-normal',
+                        icon:      'fas fa-compress',
+                        title:     'normal',
+                        onClick: (btn, map) => {
+                            document.exitFullscreen();
+                            btn.state('to-fullscreen');
+                        }
+                }]
+            }).addTo(this.map);
         }
-        console.log(this.isRendered)
     }
+
+       
 
     protected setupComponent() : boolean {
         throw Error("Not implemented");
