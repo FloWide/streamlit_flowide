@@ -89,7 +89,7 @@ class MapBaseComponent<S = {}> extends React.PureComponent<ComponentProps,S> {
                         title:     'fullscreen',      // like its title
                         onClick:(btn, map) => {       // and its callback
                             this.container.current?.requestFullscreen();
-                            btn.state('to-nornmal');    // change state on click!
+                            btn.state('to-normal');    // change state on click!
                         }
                     }, {
                         stateName: 'to-normal',
