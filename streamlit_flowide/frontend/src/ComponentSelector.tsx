@@ -6,6 +6,7 @@ import PlayBackComponent from './playback/PlayBackComponent';
 import HeatMapComponent from './heatmap/HeatMapComponent';
 import SpaghettiComponent from './spaghetti/SpaghettiComponent' 
 import LiveMapComponent from "./livemap/LiveMapComponent";
+import ZoneEditorComponent from "./zone-editor/ZoneEditorComponent";
 
 
 class ComponentSelector extends StreamlitComponentBase {
@@ -46,6 +47,14 @@ class ComponentSelector extends StreamlitComponentBase {
             case 'streamlit_flowide_livemap':
                 return (
                     <LiveMapComponent 
+                        args={this.props.args}
+                        disabled={this.props.disabled}
+                        width={this.props.width}
+                    />
+                )
+            case 'streamlit_flowide_zone_editor':
+                return (
+                    <ZoneEditorComponent
                         args={this.props.args}
                         disabled={this.props.disabled}
                         width={this.props.width}

@@ -4,13 +4,18 @@ import json
 from time import sleep
 from random import randint
 
+st.set_page_config(layout="wide")
+
 mapConfig = json.loads("""{"lowerBounds":[-20,-20],"transform":[[0.00146131,-6.20697248,15.87566848],[6.20697248,0.00146131,-19.47182787],[0,0,1]],"untransform":[[0.00003793,0.16110913,3.13648711],[-0.16110913,0.00003793,2.55845372],[0,0,1]],"upperBounds":[20,20]}""")
 
 config = {
     'map':mapConfig
 }
 
-config['image'] = 'http://localhost:800/maps/kisiroda/svg'
+config['image'] = 'http://localhost:800/maps/keve-iroda/svg'
+
+st.write(ZoneEditor(config))
+
 
 PlayBack(config,[
         {
