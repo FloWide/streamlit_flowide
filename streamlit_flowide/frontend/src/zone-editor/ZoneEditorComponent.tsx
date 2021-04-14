@@ -4,6 +4,8 @@ import MapBaseComponent from "../MapBaseComponent";
 import L,{PM,Map as LeafletMap, LatLng, easyButton, LeafletEvent, LayerGroup, Polygon} from 'leaflet';
 import { Streamlit } from 'streamlit-component-lib';
 import 'leaflet-easybutton';
+import {createPatch} from 'rfc6902';
+
 
 //extra type declaration
 declare module 'leaflet' {
@@ -75,7 +77,9 @@ class ZoneEditorComponent extends MapBaseComponent {
         drawCircleMarker:false,
     }
 
-    private zones:ZoneModel[] = [];
+    private zones:{[key:string]:ZoneModel} = {};
+
+    private originalZones:{[key:string]:ZoneModel} = {};
 
     private zoneLayer:LayerGroup = new LayerGroup();
 
@@ -93,8 +97,10 @@ class ZoneEditorComponent extends MapBaseComponent {
         this.inputDialog = new InputDialog(this.map);
 
         easyButton('fas fa-check',() => {
-            console.log(this.zones);
-            Streamlit.setComponentValue(this.zones);
+            Streamlit.setComponentValue([
+                createPatch(this.originalZones,this.zones),
+                this.zones
+            ]);
         },'Finish').addTo(this.map);
 
         return true;
@@ -102,16 +108,22 @@ class ZoneEditorComponent extends MapBaseComponent {
     }
 
     processData() {
-        const data: ZoneModel[] = this.props.args["data"];
-        console.log(data);
-        if(data && data.length > 0) {
+        const data: {[key:string]:ZoneModel} = this.props.args["data"];
+        if(data) {
             this.zoneLayer.clearLayers();
-
+            this.originalZones = JSON.parse(JSON.stringify(data));//deep copy
             this.zones = data;
-            this.zones.forEach((z) => {
+
+            
+
+            Object.values(this.zones).forEach((z:ZoneModel) => {
                 const poly = new Polygon(z.vertices.map(v => new LatLng(v[0],v[1])));
                 poly.bindTooltip(z.name);
                 poly.addTo(this.zoneLayer);
+                (poly as any).__name = z.name;
+                poly.on('pm:edit',this.onEdit.bind(this));
+                poly.on('pm:remove',this.onRemove.bind(this));
+                poly.on('contextmenu',this.onEditParameters.bind(this));
             })
         }
     }
@@ -127,7 +139,7 @@ class ZoneEditorComponent extends MapBaseComponent {
                 height:result.height,
             }
 
-            this.zones.push(zone);
+            this.zones[zone.name] = zone;
             event.layer.__name = result.name;
             event.layer.on('pm:edit',this.onEdit.bind(this));
             event.layer.on('pm:remove',this.onRemove.bind(this));
@@ -140,7 +152,7 @@ class ZoneEditorComponent extends MapBaseComponent {
         if(event.shape !== 'Polygon') return;
 
         const name = event.layer.__name;
-        const zone = this.zones.find(z => z.name === name);
+        const zone = this.zones[name];
         if(zone) {
             zone.vertices = this.getVertices(event.layer);
         }
@@ -150,10 +162,7 @@ class ZoneEditorComponent extends MapBaseComponent {
         if(event.shape !== 'Polygon') return;
 
         const name = event.layer.__name;
-        this.zones.splice(
-            this.zones.findIndex(z => z.name === name),
-            1
-        );
+        delete this.zones[name];
     }
 
     private async onEditParameters(event:LeafletEvent) {
@@ -161,7 +170,7 @@ class ZoneEditorComponent extends MapBaseComponent {
 
         if(!name) return;
 
-        const zone = this.zones.find(z => z.name === name);
+        const zone = this.zones[name];
 
         const dialogResult = await this.inputDialog?.open(name,zone?.height)
 
@@ -169,6 +178,8 @@ class ZoneEditorComponent extends MapBaseComponent {
             zone.name = dialogResult.name;
             zone.height = dialogResult.height;
             event.target.bindTooltip(zone.name);
+            delete this.zones[name];
+            this.zones[zone.name] = zone;
         }
 
     }

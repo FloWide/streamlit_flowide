@@ -14,7 +14,19 @@ config = {
 
 config['image'] = 'http://localhost:800/maps/keve-iroda/svg'
 
-st.write(ZoneEditor(config))
+st.write(ZoneEditor(config,data=
+    {
+        'asd':{
+            'name':'asd',
+            'height':[0,4],
+            'vertices':[
+                [0,0],
+                [0,10],
+                [1,15]
+            ]
+        }
+    }
+))
 
 
 PlayBack(config,[
