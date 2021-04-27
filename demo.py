@@ -14,6 +14,37 @@ config = {
 
 config['image'] = 'http://localhost:800/maps/keve-iroda/svg'
 
+
+GraphMap(config,data={
+    'nodes':{
+        '[0,0]':{
+            'label':'#1'
+        },
+        '[10,10]':{
+            'label':'#2'
+        }
+    },
+    'edges':[
+        {
+            'source':'[0,0]',
+            'target':'[10,10]',
+            'metadata':{
+                'color':'red'
+            }
+        }
+    ],
+    'metadata':{
+        'edgeInputFields':{
+            'color':{
+                'type':'text'
+            }
+        },
+        'nodeInputFields':{}
+    }
+    
+})
+
+
 st.write(ZoneEditor(config,data=
     {
         'asd':{
