@@ -36,7 +36,7 @@ class GraphMapComponent extends MapBaseComponent {
         if(!data || !this.map) return;
 
         if(this.graph) {
-            this.map?.removeLayer(this.graph);
+            this.map?.removeLayer(this.graph as any);
         }
 
         this.graph = new Graph(data);
