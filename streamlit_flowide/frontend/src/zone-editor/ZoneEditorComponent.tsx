@@ -67,7 +67,7 @@ interface ZoneModel {
 class ZoneEditorComponent extends MapBaseComponent {
 
 
-    private toolbarOptions:PM.DrawControlOptions = {
+    private toolbarOptions:PM.ToolbarOptions = {
         drawMarker:false,
         drawPolygon:true,
         drawPolyline:false,
@@ -89,7 +89,7 @@ class ZoneEditorComponent extends MapBaseComponent {
 
         if(!this.map) return false;
         
-        this.map.pm.setGlobalOptions({layerGroup:this.zoneLayer});
+        this.map.pm.setGlobalOptions({...this.map.pm.getGlobalOptions(),layerGroup:this.zoneLayer});
         this.zoneLayer.addTo(this.map);
 
         this.map.pm.addControls(this.toolbarOptions);
