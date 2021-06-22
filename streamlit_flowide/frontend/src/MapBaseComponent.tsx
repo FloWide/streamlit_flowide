@@ -7,6 +7,7 @@ import 'leaflet-easybutton';
 interface MapConfig {
     map:MatrixTransformationConfig & {lowerBounds:[number,number];upperBounds:[number,number]};
     image:string;
+    height?:string;
 }
 
 
@@ -69,6 +70,9 @@ class MapBaseComponent<S = {}> extends React.PureComponent<ComponentProps,S> {
         const upperBounds = config.map?.upperBounds ?? [20,20];
 
         if(this.container.current) {
+
+            if(config.height)
+                this.container.current.style.height = config.height;
 
             if(this.map) {
                 this.map.off();
