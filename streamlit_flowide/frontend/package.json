@@ -6,7 +6,7 @@
     "@flowide/leaflet-custom-transformation": "^1.0.2",
     "@flowide/leaflet-flo-heat": "^1.0.0",
     "@flowide/leaflet-graph-editor": "^1.0.2",
-    "@flowide/leaflet-playback-plugin": "^1.0.6",
+    "@flowide/leaflet-playback-plugin": "^1.0.7",
     "@flowide/leaflet-spaghetti-plugin": "^1.0.0",
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@geoman-io/leaflet-geoman-free": "^2.10.0",
