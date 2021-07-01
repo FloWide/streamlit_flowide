@@ -10,7 +10,12 @@ mapConfig = json.loads("""{"lowerBounds":[-20,-20],"transform":[[0.00146131,-6.2
 
 config = {
     'map':mapConfig,
-    'height':'900px'
+    'height':'900px',
+    'gps_transform':[
+        [-1,0,0],
+        [0,1,0],
+        [0,0,1]
+    ]
 }
 
 config['image'] = 'http://localhost:800/maps/keve-iroda/svg'
@@ -57,7 +62,7 @@ PlayBack(config,[
                 'name':'CREATE_MARKER',
                 'args':{
                     'id':'12',
-                    'position':[randint(0,10),0]
+                    'position':[randint(0,10),0,'gcs']
                 }
             }
         },
@@ -67,7 +72,7 @@ PlayBack(config,[
                 'name':'MOVE_MARKER',
                 'args':{
                     'id':'12',
-                    'position':[3.772618633552917,0.001],
+                    'position':[3.772618633552917,0.001,'gcs'],
                     'prevPosition':[0,0]
                 }
             }
@@ -78,7 +83,7 @@ PlayBack(config,[
                 'name':'MOVE_MARKER',
                 'args':{
                     'id':'12',
-                    'position':[-2,2],
+                    'position':[-2,2,'gcs'],
                     'prevPosition':[3.772618633552917,0.001],
                 }
             }

@@ -4,6 +4,9 @@ from streamlit.report_thread import get_report_ctx
 from time import time,sleep
 import streamlit as st
 from .._common import variables
+from .._common.types import MapConfig
+from .._common.gps_transform import create_transform_function
+from typing import Callable,List
 
 COMPONENT_NAME = "streamlit_flowide_livemap"
 
@@ -16,7 +19,13 @@ class LiveMapContext:
     def __current_milli_time(self):
         return int(time() * 1000)
 
+    def set_gps_transform(self,transform: Callable[[List[float]],List[float]] ):
+        self._transform = transform
+
     def create_marker(self,id,pos,scale = 1):
+        if self._transform and pos[-1] == 'gcs':
+            pos = self._transform(pos[0:-1])
+
         self._send(live_data=[{
             'time':self.__current_milli_time(),
             'event':{
@@ -31,6 +40,8 @@ class LiveMapContext:
 
 
     def delete_marker(self,id,pos = None):
+        if self._transform and pos[-1] == 'gcs':
+            pos = self._transform(pos[0:-1])
         self._send(live_data=[{
             'time':self.__current_milli_time(),
             'event':{
@@ -43,6 +54,8 @@ class LiveMapContext:
         }])
 
     def move_marker(self,id,pos):
+        if self._transform and pos[-1] == 'gcs':
+            pos = self._transform(pos[0:-1])
         self._send(live_data=[{
             'time':self.__current_milli_time(),
             'event':{
@@ -271,42 +284,26 @@ class LiveMapContext:
 
 
 
-# Create a _RELEASE constant. We'll set this to False while we're developing
-# the component, and True when we're ready to package and distribute it.
-# (This is, of course, optional - there are innumerable ways to manage your
-# release process.)
 _RELEASE = variables.RELEASE
 
 
 if not _RELEASE:
     _component_func = components.declare_component(
-        # We give the component a simple, descriptive name ("my_component"
-        # does not fit this bill, so please choose something better for your
-        # own component :)
         COMPONENT_NAME,
-        # Pass `url` here to tell Streamlit that the component will be served
-        # by the local dev server that you run via `npm run start`.
-        # (This is useful while your component is in development.)
         url="http://localhost:3001",
         component_type=LiveMapContext
     )
 else:
-    # When we're distributing a production version of the component, we'll
-    # replace the `url` param with `path`, and point it to to the component's
-    # build directory:
     _component_func = components.declare_component(COMPONENT_NAME, path=variables.FRONTEND_BUILD,component_type=LiveMapContext)
 
 
 
 
-# Create a wrapper function for the component. This is an optional
-# best practice - we could simply expose the component function returned by
-# `declare_component` and call it done. The wrapper allows us to customize
-# our component's API: we can pre-process its input args, post-process its
-# output value, and add a docstring for users.
-def LiveMap(config,key=None) -> LiveMapContext:
 
-    value = _component_func(config=config,key=key,component=COMPONENT_NAME)
+def LiveMap(config: MapConfig,key=None) -> LiveMapContext:
+
+    value: LiveMapContext = _component_func(config=config,key=key,component=COMPONENT_NAME)
+    value.set_gps_transform(create_transform_function(config.get('gps_transform')))
     sleep(0.5)  
     return value
 
