@@ -37,7 +37,7 @@ jobs:
         uses: olegtarasov/get-tag@v2.1
         id: tagName
         with:
-          tagRegex: '(v)(?<version>[0-9]+\.[0-9]+\.[0-9])'
+          tagRegex: '(v)(?<version>[0-9]+\.[0-9]+\.[0-9])+'
       - name: Build frontend and package python
         run: |
           cd streamlit_flowide/frontend
