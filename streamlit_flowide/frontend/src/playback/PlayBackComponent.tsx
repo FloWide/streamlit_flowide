@@ -27,8 +27,10 @@ class PlayBackComponent extends MapBaseComponent {
         
         if (this.playbackControl)
             this.map.removeControl(this.playbackControl);
-
-        this.playback = new PlayBack(data);
+        
+        let cluster = this.props.args["cluster"] || false;
+        
+        this.playback = new PlayBack(data,null,cluster);
         this.playbackControl = new PlayControl(this.playback);
         this.playback.addTo(this.map);
         this.playbackControl.addTo(this.map);

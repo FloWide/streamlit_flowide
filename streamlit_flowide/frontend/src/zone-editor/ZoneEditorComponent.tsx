@@ -67,7 +67,7 @@ interface ZoneModel {
 class ZoneEditorComponent extends MapBaseComponent {
 
 
-    private toolbarOptions:PM.ToolbarOptions = {
+    private toolbarOptions:any = {
         drawMarker:false,
         drawPolygon:true,
         drawPolyline:false,

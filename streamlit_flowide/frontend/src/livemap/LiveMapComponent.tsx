@@ -13,8 +13,10 @@ class LiveMapComponent extends MapBaseComponent {
 
         if(this.livemap)
             this.livemap.removeFrom(this.map);
-            
-        this.livemap = new LivePlay();
+        
+        let cluster = this.props.args["cluster"] || false;
+
+        this.livemap = new LivePlay(null,null,cluster);
         this.livemap.addTo(this.map);
 
 

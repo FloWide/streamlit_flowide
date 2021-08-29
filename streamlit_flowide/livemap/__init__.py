@@ -300,9 +300,9 @@ else:
 
 
 
-def LiveMap(config: MapConfig,key=None) -> LiveMapContext:
+def LiveMap(config: MapConfig,cluster=False,key=None) -> LiveMapContext:
 
-    value: LiveMapContext = _component_func(config=config,key=key,component=COMPONENT_NAME)
+    value: LiveMapContext = _component_func(config=config,cluster=cluster,key=key,component=COMPONENT_NAME)
     value.set_gps_transform(create_transform_function(config.get('gps_transform')))
     sleep(0.5)  
     return value

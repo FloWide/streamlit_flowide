@@ -49,12 +49,13 @@ def _prepare_data(data:Iterable[PlaybackElement],transform: Callable[[List[float
     return pdata
 
 
-def PlayBack(config: MapConfig,data: Iterable[PlaybackElement], key=None):
+def PlayBack(config: MapConfig,data: Iterable[PlaybackElement], cluster=False,key=None):
     component_value = _component_func(
         config=config,
         data=_prepare_data(data,create_transform_function(config.get("gps_transform"))),
         key=key, 
         default=0,
+        cluster=cluster,
         component=COMPONENT_NAME
     )
     return component_value

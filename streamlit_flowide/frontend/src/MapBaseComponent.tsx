@@ -81,7 +81,8 @@ class MapBaseComponent<S = {}> extends React.PureComponent<ComponentProps,S> {
 
             this.map = createMap(this.container.current,{
                 crs:(new CustomCRS(config.map) as any),
-                attributionControl: false
+                attributionControl: false,
+                maxZoom:12
             });
             this.map.setView([0,0],4);
             this.imageOverlay = new ImageOverlayExcludeCRS(config.image,new LatLngBounds(lowerBounds,upperBounds))

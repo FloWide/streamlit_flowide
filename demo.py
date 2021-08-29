@@ -67,6 +67,16 @@ PlayBack(config,[
             }
         },
         {
+            'time':1602247219471,
+            'event':{
+                'name':'CREATE_MARKER',
+                'args':{
+                    'id':'13',
+                    'position':[randint(0,10),0,'gcs']
+                }
+            }
+        },
+        {
             'time':1602247219471 + 2000,
             'event':{
                 'name':'MOVE_MARKER',
@@ -88,8 +98,8 @@ PlayBack(config,[
                 }
             }
         },
-    ])
-
+    ],cluster=True)
+"""
 HeatMap(
     config,
     [
@@ -107,11 +117,13 @@ Spaghetti(config,[
         [4.0,4,8000],
         [4.307988081148033,3.64313005324229,10000]
 ],)
+"""
 
-
-ctx = LiveMap(config)
+ctx = LiveMap(config,cluster=True)
 
 ctx.create_marker("2",[0,0])
+ctx.create_marker("3",[0,0])
+ctx.create_marker("4",[0,0])
 ctx.change_main_icon("2","icons/map-pin-icon-box.svg")
 
 for i in range(0,30):
