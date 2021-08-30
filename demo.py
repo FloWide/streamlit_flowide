@@ -124,6 +124,7 @@ ctx = LiveMap(config,cluster=True)
 ctx.create_marker("2",[0,0])
 ctx.create_marker("3",[0,0],cluster=True)
 ctx.create_marker("4",[0,0],cluster=True)
+ctx.delete_marker('4',[0,0])
 ctx.change_main_icon("2","icons/map-pin-icon-box.svg")
 
 for i in range(0,30):

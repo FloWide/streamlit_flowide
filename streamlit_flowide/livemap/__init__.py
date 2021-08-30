@@ -40,7 +40,7 @@ class LiveMapContext:
         }])
 
 
-    def delete_marker(self,id,pos = None):
+    def delete_marker(self,id,pos = [0,0]):
         if self._transform and pos[-1] == 'gcs':
             pos = self._transform(pos[0:-1])
         self._send(live_data=[{
