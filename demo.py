@@ -118,12 +118,12 @@ Spaghetti(config,[
         [4.307988081148033,3.64313005324229,10000]
 ],)
 """
-
+sleep(3)
 ctx = LiveMap(config,cluster=True)
 
 ctx.create_marker("2",[0,0])
-ctx.create_marker("3",[0,0])
-ctx.create_marker("4",[0,0])
+ctx.create_marker("3",[0,0],cluster=True)
+ctx.create_marker("4",[0,0],cluster=True)
 ctx.change_main_icon("2","icons/map-pin-icon-box.svg")
 
 for i in range(0,30):

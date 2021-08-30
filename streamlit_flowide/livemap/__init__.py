@@ -22,7 +22,7 @@ class LiveMapContext:
     def set_gps_transform(self,transform: Callable[[List[float]],List[float]] ):
         self._transform = transform
 
-    def create_marker(self,id,pos,scale = 1):
+    def create_marker(self,id,pos,scale = 1,cluster=False):
         if self._transform and pos[-1] == 'gcs':
             pos = self._transform(pos[0:-1])
 
@@ -33,7 +33,8 @@ class LiveMapContext:
                 'args':{
                     'id':id,
                     'position':pos,
-                    'scale':scale
+                    'scale':scale,
+                    'cluster':cluster
                 }
             }
         }])
@@ -45,7 +46,7 @@ class LiveMapContext:
         self._send(live_data=[{
             'time':self.__current_milli_time(),
             'event':{
-                'name':'CREATE_MARKER',
+                'name':'DELETE_MARKER',
                 'args':{
                     'id':id,
                     'position':pos

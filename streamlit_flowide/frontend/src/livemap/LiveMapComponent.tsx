@@ -14,9 +14,7 @@ class LiveMapComponent extends MapBaseComponent {
         if(this.livemap)
             this.livemap.removeFrom(this.map);
         
-        let cluster = this.props.args["cluster"] || false;
-
-        this.livemap = new LivePlay(null,null,cluster);
+        this.livemap = new LivePlay(null,null);
         this.livemap.addTo(this.map);
 
 
