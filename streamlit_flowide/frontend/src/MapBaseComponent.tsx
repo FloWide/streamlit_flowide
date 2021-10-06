@@ -88,6 +88,7 @@ class MapBaseComponent<S = {}> extends React.PureComponent<ComponentProps,S> {
             this.imageOverlay = new ImageOverlayExcludeCRS(config.image,new LatLngBounds(lowerBounds,upperBounds))
             this.imageOverlay.addTo(this.map)
             this.isRendered = true;
+            this.map.fitBounds(this.imageOverlay.getBounds())
             easyButton({
                 states: [{
                         stateName: 'to-fullscreen',        // name the state

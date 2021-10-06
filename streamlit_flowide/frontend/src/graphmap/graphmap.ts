@@ -5,7 +5,6 @@ import { easyButton } from "leaflet";
 import { Streamlit } from "streamlit-component-lib";
 
 
-
 class GraphMapComponent extends MapBaseComponent {
 
 
@@ -15,10 +14,12 @@ class GraphMapComponent extends MapBaseComponent {
 
         if(!this.map) return false;
 
-
         const data : IGraph = this.props.args["data"];
 
         if(!data) return false;
+        
+        if(this.graph)
+            this.map.removeLayer(this.graph)
 
         this.graph = new Graph(data);
         this.graph.addTo(this.map);
@@ -31,17 +32,7 @@ class GraphMapComponent extends MapBaseComponent {
     }
 
     processData() {
-        const data : IGraph = this.props.args["data"];
-
-        if(!data || !this.map) return;
-
-        if(this.graph) {
-            this.map?.removeLayer(this.graph as any);
-        }
-
-        this.graph = new Graph(data);
-        this.graph.addTo(this.map);
-
+        //no
     }
 
 }
