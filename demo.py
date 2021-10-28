@@ -6,10 +6,22 @@ from random import randint
 
 st.set_page_config(layout="wide")
 
-mapConfig = json.loads("""{"lowerBounds":[-20,-20],"transform":[[0.00146131,-6.20697248,15.87566848],[6.20697248,0.00146131,-19.47182787],[0,0,1]],"untransform":[[0.00003793,0.16110913,3.13648711],[-0.16110913,0.00003793,2.55845372],[0,0,1]],"upperBounds":[20,20]}""")
 
 config = {
-    'map':mapConfig,
+    'map':{
+        'lowerBounds':[0,0],
+        'upperBounds':[24,16],
+        'transform':[
+            [1,0,0],
+            [0,1,0],
+            [0,0,1]
+        ],
+        'untransform':[
+            [1,0,0],
+            [0,1,0],
+            [0,0,1]
+        ]
+    },
     'height':'900px',
     'gps_transform':[
         [-1,0,0],
@@ -18,115 +30,24 @@ config = {
     ]
 }
 
-config['image'] = 'http://localhost:800/maps/keve-iroda/svg'
+config['image'] = 'https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/rm301-eye-11-c_1_1.jpg?w=800&dpr=1&fit=default&crop=default&q=65&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=48c6e1f47b6e6364e88d1736d4b9356b'
 
 
-st.write(GraphMap(config,data={
-    'directed':True,
-    'nodes':{
-    },
-    'edges':[
-    ],
-    'metadata':{
-        'edgeInputFields':{
-            'color':{
-                'type':'text'
-            }
-        },
-        'nodeInputFields':{}
-    }
-    
-}))
-
-"""
-st.write(ZoneEditor(config,data=
-    {
-        'asd':{
-            'name':'asd',
-            'height':[0,4],
-            'vertices':[
-                [0,0],
-                [0,10],
-                [1,15]
-            ]
-        }
-    }
-))
-"""
-
-
-PlayBack(config,[
-        {
-            'time':1602247219471,
-            'event':{
-                'name':'CREATE_MARKER',
-                'args':{
-                    'id':'12',
-                    'position':[randint(0,10),0,'gcs']
-                }
-            }
-        },
-        {
-            'time':1602247219471,
-            'event':{
-                'name':'CREATE_MARKER',
-                'args':{
-                    'id':'13',
-                    'position':[randint(0,10),0,'gcs']
-                }
-            }
-        },
-        {
-            'time':1602247219471 + 2000,
-            'event':{
-                'name':'MOVE_MARKER',
-                'args':{
-                    'id':'12',
-                    'position':[3.772618633552917,0.001,'gcs'],
-                    'prevPosition':[0,0]
-                }
-            }
-        },
-        {
-            'time':1602247219471 + 5000,
-            'event':{
-                'name':'MOVE_MARKER',
-                'args':{
-                    'id':'12',
-                    'position':[-2,2,'gcs'],
-                    'prevPosition':[3.772618633552917,0.001],
-                }
-            }
-        },
-    ],cluster=True)
-"""
-HeatMap(
-    config,
-    [
-        [randint(0,10),0.0,1],
-        [1.0,1.0,0.5],
-        [4.0,4,0.7],
-        [4.307988081148033,3.64313005324229,0.5]
-    ],
-    None
-)
-
-Spaghetti(config,[
-        [randint(0,10),0.0,1000],
-        [1.0,1.0,5000],
-        [4.0,4,8000],
-        [4.307988081148033,3.64313005324229,10000]
-],)
-"""
-sleep(3)
 ctx = LiveMap(config,cluster=True)
 
-ctx.create_marker("2",[0,0])
-ctx.create_marker("3",[0,0],cluster=True)
-ctx.create_marker("4",[0,0],cluster=True)
-ctx.delete_marker('4',[0,0])
-ctx.change_main_icon("2","icons/map-pin-icon-box.svg")
+with ctx.buffering():
+    ctx.create_marker("2",[0,0],delay=2000)
+    ctx.create_marker("3",[5,0],cluster=True,delay=2000)
+    ctx.create_marker("4",[0,0],cluster=True,delay=2000)
+    ctx.delete_marker('4',[0,0],delay=2000)
+    ctx.change_main_icon("2","icons/map-pin-icon-box.svg",delay=2000)
+    ctx.move_marker('2',[0,5],delay=1000)
 
+
+colors = ['red','blue','green','orange','tomato']
+
+import random
 for i in range(0,30):
-    ctx.move_marker("2",[0,i])
+    ctx.move_marker("3",[5,i])
+    ctx.change_main_color("3",random.choice(colors))
     sleep(0.5)
