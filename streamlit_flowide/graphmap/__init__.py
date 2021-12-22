@@ -29,9 +29,9 @@ else:
 
 
 
-def GraphMap(config,data,key=None):
+def GraphMap(config,data,markers=None,rectangles=None,key=None):
 
-    component_value = _component_func(config=config,data=data,key=key, default=0,component=COMPONENT_NAME)
+    component_value = _component_func(config=config,data=data,markers=markers,rectangles=rectangles,key=key, default=0,component=COMPONENT_NAME)
 
     # We could modify the value returned from the component if we wanted.
     # There's no need to do this in our simple example - but it's an option.
