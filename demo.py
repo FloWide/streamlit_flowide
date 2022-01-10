@@ -43,6 +43,11 @@ stuff = GraphMap(config,{
                 'devId':{
                     "type":"number"
                 }
+            },
+            'defaultNodeDisplay':{
+                'size':16,
+                'shape':'square',
+                'color':'red'
             }
         }
     },markers=[{
