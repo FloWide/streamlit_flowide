@@ -1,8 +1,6 @@
 import streamlit as st
 from streamlit_flowide import *
-import json
 from time import sleep
-from random import randint
 
 st.set_page_config(layout="wide")
 
@@ -11,26 +9,20 @@ config = {
     'map':{
         'lowerBounds':[0,0],
         'upperBounds':[24,16],
-        'transform':[
-            [1,0,0],
-            [0,1,0],
-            [0,0,1]
-        ],
-        'untransform':[
-            [1,0,0],
-            [0,1,0],
-            [0,0,1]
-        ]
+        'transform':[[0.00,-0.17,99.0],[0.17,0.00,-101.5],[0.0,0.0,1.0]],
+        'untransform':[[0.00,5.882,597.05],[-5.882,0.00,582.35],[0.0,0.0,1.0]]
     },
     'height':'900px',
     'gps_transform':[
         [-1,0,0],
         [0,1,0],
         [0,0,1]
-    ]
+    ],
+    'tileLayer': {
+        'urlTemplate':'https://dev.flowide.net/coordinates_swisskrono-out/tiles/{z}/{x}/{y}.png',
+        'imgSize':[15411,9144]
+    }
 }
-
-config['image'] = 'https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/rm301-eye-11-c_1_1.jpg?w=800&dpr=1&fit=default&crop=default&q=65&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=48c6e1f47b6e6364e88d1736d4b9356b'
 
 
 

@@ -1,13 +1,21 @@
 import { ComponentProps } from "streamlit-component-lib";
 import React,{RefObject, ReactNode} from 'react'
 import {CustomCRS, ImageOverlayExcludeCRS, MatrixTransformationConfig} from '@flowide/leaflet-custom-transformation'
-import {Map as LeafletMap,map as createMap, LatLngBounds,easyButton} from 'leaflet';
+import {Map as LeafletMap,map as createMap, LatLngBounds,easyButton, TileLayer} from 'leaflet';
 import 'leaflet-easybutton';
+import RasterCoords from "./RasterCoords";
+
+interface TileLayerConfig {
+    imgSize: [number,number];
+    urlTemplate: string;
+    tileSize?: number;
+}
 
 interface MapConfig {
     map:MatrixTransformationConfig & {lowerBounds:[number,number];upperBounds:[number,number]};
     image:string;
     height?:string;
+    tileLayer: TileLayerConfig;
 }
 
 
@@ -18,6 +26,8 @@ class MapBaseComponent<S = {}> extends React.PureComponent<ComponentProps,S> {
     protected map: LeafletMap | null = null;
 
     protected imageOverlay: ImageOverlayExcludeCRS | null = null;
+
+    protected tileLayer: TileLayer | null = null;
 
     protected isRendered: boolean = false;
 
@@ -84,11 +94,30 @@ class MapBaseComponent<S = {}> extends React.PureComponent<ComponentProps,S> {
                 attributionControl: false,
                 maxZoom:12
             });
-            this.map.setView([0,0],4);
-            this.imageOverlay = new ImageOverlayExcludeCRS(config.image,new LatLngBounds(lowerBounds,upperBounds))
-            this.imageOverlay.addTo(this.map)
+
+            if(config.image) {
+                this.imageOverlay = new ImageOverlayExcludeCRS(config.image,new LatLngBounds(lowerBounds,upperBounds))
+                this.imageOverlay.addTo(this.map)
+                this.map.fitBounds(this.imageOverlay.getBounds())
+            }
+
+            if(config.tileLayer) {
+                const rc = new RasterCoords(this.map,config.tileLayer.imgSize[0],config.tileLayer.imgSize[1],config.tileLayer.tileSize);
+                this.map.setMaxZoom(rc.zoomLevel());
+                this.map.setView(rc.unproject([
+                    config.tileLayer.imgSize[0],
+                    config.tileLayer.imgSize[1]
+                ]
+                ),2)
+                this.tileLayer = new TileLayer(config.tileLayer.urlTemplate,{
+                    noWrap:true,
+                    bounds:rc.getMaxBounds(),
+                    maxNativeZoom:rc.zoomLevel()
+                });
+                this.tileLayer.addTo(this.map);
+            }
+
             this.isRendered = true;
-            this.map.fitBounds(this.imageOverlay.getBounds())
             easyButton({
                 states: [{
                         stateName: 'to-fullscreen',        // name the state
