@@ -1,9 +1,10 @@
 import { ComponentProps } from "streamlit-component-lib";
 import React,{RefObject, ReactNode} from 'react'
-import {CustomCRS, ImageOverlayExcludeCRS, MatrixTransformationConfig} from '@flowide/leaflet-custom-transformation'
+import {Array3x3, CustomCRS, ImageOverlayExcludeCRS, MatrixTransformationConfig} from '@flowide/leaflet-custom-transformation'
 import {Map as LeafletMap,map as createMap, LatLngBounds,easyButton, TileLayer} from 'leaflet';
 import 'leaflet-easybutton';
 import RasterCoords from "./RasterCoords";
+import {mat3,vec2} from 'gl-matrix';
 
 interface TileLayerConfig {
     imgSize: [number,number];
@@ -16,6 +17,7 @@ interface MapConfig {
     image:string;
     height?:string;
     tileLayer: TileLayerConfig;
+    gpsTransform: Array3x3;
 }
 
 
@@ -34,6 +36,10 @@ class MapBaseComponent<S = {}> extends React.PureComponent<ComponentProps,S> {
     protected componentReady: boolean = false;
 
     protected previousConfig: string = '';
+
+    protected mapConfig: MapConfig = null;
+
+    protected gpsTransformMatrix: mat3 = mat3.create();
 
 
     constructor(props:any) {
@@ -94,6 +100,12 @@ class MapBaseComponent<S = {}> extends React.PureComponent<ComponentProps,S> {
                 attributionControl: false,
                 maxZoom:12
             });
+            this.mapConfig = config;
+
+            if(config.gpsTransform)
+                this.gpsTransformMatrix = fromArray3x3(config.gpsTransform)
+            else
+                this.gpsTransformMatrix = mat3.create();
 
             if(config.image) {
                 this.imageOverlay = new ImageOverlayExcludeCRS(config.image,new LatLngBounds(lowerBounds,upperBounds))
@@ -154,6 +166,21 @@ class MapBaseComponent<S = {}> extends React.PureComponent<ComponentProps,S> {
     protected isNewConfig(config:MapConfig) : boolean {
         return JSON.stringify(config) !== this.previousConfig;
     }
+
+    protected gpsTransformation(gps: [number,number]) {
+        const vec = vec2.fromValues(gps[0],gps[1]);
+        vec2.transformMat3(vec,vec,this.gpsTransformMatrix);
+        return [vec[0],vec[1]];
+    }
+}
+
+
+function fromArray3x3(arr:Array3x3) : mat3 {
+    return mat3.fromValues(
+        arr[0][0],arr[1][0],arr[2][0],
+        arr[0][1],arr[1][1],arr[2][1],
+        arr[0][2],arr[1][2],arr[2][2]
+    );
 }
 
 export default MapBaseComponent

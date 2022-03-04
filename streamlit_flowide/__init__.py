@@ -4,6 +4,7 @@ from .spaghetti import Spaghetti
 from .playback import PlayBack
 from .zone_editor import ZoneEditor
 from .graphmap import GraphMap
+from .updatemap import UpdateMap
 
 __all__ = [
     'LiveMap',
@@ -11,5 +12,6 @@ __all__ = [
     'Spaghetti',
     'PlayBack',
     'ZoneEditor',
-    'GraphMap'
+    'GraphMap',
+    'UpdateMap'
 ]

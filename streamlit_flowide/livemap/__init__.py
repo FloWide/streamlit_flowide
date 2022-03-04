@@ -1,5 +1,4 @@
 import streamlit.components.v1 as components
-from streamlit.report_thread import get_report_ctx
 from time import time, sleep
 import streamlit as st
 from .._common import variables

@@ -35,3 +35,13 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById("root")
 )
+
+/*
+declare module 'leaflet-arrowheads' {
+
+
+  interface ArrowheadOptions {
+    size?: string;
+  }
+
+}*/

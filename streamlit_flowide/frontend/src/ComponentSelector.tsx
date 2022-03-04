@@ -8,6 +8,7 @@ import SpaghettiComponent from './spaghetti/SpaghettiComponent'
 import LiveMapComponent from "./livemap/LiveMapComponent";
 import ZoneEditorComponent from "./zone-editor/ZoneEditorComponent";
 import GraphMapComponent from "./graphmap/graphmap";
+import UpdateMapComponent from "./livemap/UpdateMapComponent";
 
 
 class ComponentSelector extends StreamlitComponentBase {
@@ -69,8 +70,14 @@ class ComponentSelector extends StreamlitComponentBase {
                         width={this.props.width}
                     />
                 )
-
-                
+            case 'streamlit_flowide_updatemap':
+                return (
+                    <UpdateMapComponent
+                        args={this.props.args}
+                        disabled={this.props.disabled}
+                        width={this.props.width}
+                    />
+                )
             default:
                 return (
                     <div style={{height:'100px'}}>

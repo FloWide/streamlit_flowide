@@ -9,22 +9,27 @@ config = {
     'map':{
         'lowerBounds':[0,0],
         'upperBounds':[24,16],
-        'transform':[[0.00,-0.17,99.0],[0.17,0.00,-101.5],[0.0,0.0,1.0]],
-        'untransform':[[0.00,5.882,597.05],[-5.882,0.00,582.35],[0.0,0.0,1.0]]
+        'transform':[[1.0,0.0,0.0],[0.0,1.0,0],[0.0,0.0,1.0]],
+        'untransform':[[1.0,0.0,0.0],[0.0,1.0,0],[0.0,0.0,1.0]]
     },
     'height':'900px',
-    'gps_transform':[
+    'gpsTransform':[
         [-1,0,0],
         [0,1,0],
         [0,0,1]
     ],
-    'tileLayer': {
-        'urlTemplate':'https://dev.flowide.net/coordinates_swisskrono-out/tiles/{z}/{x}/{y}.png',
-        'imgSize':[15411,9144]
-    }
+    'image':'https://swisskrono-gw.flowide.net/settings/map/svg'
 }
 
 
+
+UpdateMap(config,[{
+    'markerId':'marker1',
+    'position':[0,0],
+    'tags':['tag.50332785'],
+    'scale':0.8,
+    'color':'royalblue'
+}],'wss://swisskrono-gw.flowide.net/v2/locations/websocket')
 
 
 stuff = GraphMap(config,{
@@ -72,7 +77,6 @@ for i in range(0,30):
     ctx.move_marker("3",[5,i])
     ctx.change_main_color("3",random.choice(colors))
     sleep(0.5)
-
 
 
 
