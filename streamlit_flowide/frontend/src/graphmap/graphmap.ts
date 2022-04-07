@@ -14,7 +14,7 @@ class GraphMapComponent extends MapBaseComponent {
 
     private markers: Marker[] = [];
 
-    setupComponent() : boolean {
+    async setupComponent() : Promise<boolean> {
 
         if(!this.map) return false;
 
@@ -61,7 +61,7 @@ class GraphMapComponent extends MapBaseComponent {
 
     }
 
-    processData() {
+    async processData() {
         //no
     }
 

@@ -19,7 +19,6 @@ class ComponentSelector extends StreamlitComponentBase {
     }
 
     private getComponent(name:string) : React.ReactNode {
-
         switch (name) {
             case 'streamlit_flowide_playback':
                 return (

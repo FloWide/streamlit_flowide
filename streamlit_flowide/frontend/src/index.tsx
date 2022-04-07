@@ -17,6 +17,7 @@ import icon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import L from "leaflet";
 import ComponentSelector from "./ComponentSelector";
+import { bootstrapGlobals } from "./javascript-hook";
 
 let DefaultIcon = L.icon({
   iconUrl: icon,
@@ -27,8 +28,7 @@ let DefaultIcon = L.icon({
 });
 
 L.Marker.prototype.options.icon = DefaultIcon;
-
-
+bootstrapGlobals();
 ReactDOM.render(
   <React.StrictMode>
     <ComponentSelector />
@@ -36,12 +36,14 @@ ReactDOM.render(
   document.getElementById("root")
 )
 
-/*
+
 declare module 'leaflet-arrowheads' {
 
-
-  interface ArrowheadOptions {
-    size?: string;
+  interface SingleArrowheadOptions {
+    [key:string]:any;
   }
 
-}*/
+  interface ArrowheadOptions extends L.PolylineOptions, SingleArrowheadOptions {
+    [key:string]: any;
+  }
+}

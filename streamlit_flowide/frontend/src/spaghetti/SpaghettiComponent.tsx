@@ -17,7 +17,7 @@ class SpaghettiComponent extends MapBaseComponent {
         });
     }
 
-    setupComponent() : boolean {
+    async setupComponent() : Promise<boolean> {
         if(!this.map) return false;
 
         if(this.spaghetti)
@@ -39,7 +39,7 @@ class SpaghettiComponent extends MapBaseComponent {
         return true;
     }
 
-    processData() {
+    async processData() {
         if (this.spaghetti) {
             const spaghettiData = this.toSpaghettiData() ?? {id:'1',data:[]};
             this.spaghetti.Data = spaghettiData;

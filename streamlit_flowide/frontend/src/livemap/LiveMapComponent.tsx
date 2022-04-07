@@ -39,12 +39,11 @@ class LiveMapComponent extends MapBaseComponent {
 
     private queue: AsyncQueue<DelayedPlayBackElement[]>;
 
-    setupComponent() : boolean {
+    async setupComponent() : Promise<boolean> {
         if(!this.map) return false;
 
         if(this.livemap)
             this.livemap.removeFrom(this.map);
-        
         this.livemap = new LivePlay(null,null);
         this.livemap.addTo(this.map);
 
@@ -54,7 +53,7 @@ class LiveMapComponent extends MapBaseComponent {
         return true;
     }
 
-    processData() {
+    async processData() {
         const data = this.props.args["live_data"]
 
         if(!data || data.length === 0 || !this.livemap) return;

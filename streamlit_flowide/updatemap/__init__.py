@@ -26,13 +26,14 @@ else:
 
 
 
-def UpdateMap(config: MapConfig,data: List[InitData], ws_url: str,key=None):
+def UpdateMap(config: MapConfig,data: List[InitData], ws_urls: List[str] | str,js_hook=None,key=None):
     component_value = _component_func(
         config=config,
         init_data=data,
         key=key, 
         default=0,
-        ws_url=ws_url,
+        ws_urls=(ws_urls if isinstance(ws_urls,list) else [ws_urls] ),
+        js_hook=js_hook,
         component=COMPONENT_NAME
     )
     return component_value

@@ -21,7 +21,7 @@ interface MapConfig {
 }
 
 
-class MapBaseComponent<S = {}> extends React.PureComponent<ComponentProps,S> {
+export default class MapBaseComponent<S = {}> extends React.PureComponent<ComponentProps,S> {
 
     protected container: RefObject<HTMLDivElement>;
 
@@ -62,26 +62,26 @@ class MapBaseComponent<S = {}> extends React.PureComponent<ComponentProps,S> {
         )
     }
 
-    protected renderLogic() {
+    protected async renderLogic() {
         const config = this.props.args["config"];
 
         if(config && this.isNewConfig(config)) {
             this.isRendered = false;
             this.setupMap(config);
-            this.componentReady = this.setupComponent();
+            this.componentReady = await this.setupComponent();
             this.previousConfig = JSON.stringify(config);
         } else if(!this.isRendered && this.previousConfig) {
             this.setupMap(JSON.parse(this.previousConfig));
-            this.componentReady = this.setupComponent();
+            this.componentReady = await this.setupComponent();
         } else {
             if (this.componentReady)
                 this.processData();
             else
-                this.componentReady = this.setupComponent();
+                this.componentReady = await this.setupComponent();
         }
     }
 
-    protected setupMap(config:MapConfig) {
+    protected async setupMap(config:MapConfig) {
         const lowerBounds = config.map?.lowerBounds ?? [-20,-20];
         const upperBounds = config.map?.upperBounds ?? [20,20];
 
@@ -154,11 +154,11 @@ class MapBaseComponent<S = {}> extends React.PureComponent<ComponentProps,S> {
 
        
 
-    protected setupComponent() : boolean {
+    protected async setupComponent() : Promise<boolean> {
         throw Error("Not implemented");
     }
 
-    protected processData() {
+    protected async processData() {
         throw Error("Not implemented");
     }
 
@@ -168,7 +168,7 @@ class MapBaseComponent<S = {}> extends React.PureComponent<ComponentProps,S> {
     }
 
     protected gpsTransformation(gps: [number,number]) {
-        const vec = vec2.fromValues(gps[0],gps[1]);
+        const vec = vec2.fromValues(gps[1],gps[0]);
         vec2.transformMat3(vec,vec,this.gpsTransformMatrix);
         return [vec[0],vec[1]];
     }
@@ -182,5 +182,3 @@ function fromArray3x3(arr:Array3x3) : mat3 {
         arr[0][2],arr[1][2],arr[2][2]
     );
 }
-
-export default MapBaseComponent

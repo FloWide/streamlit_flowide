@@ -8,7 +8,7 @@ class PlayBackComponent extends MapBaseComponent {
 
     private playbackControl: PlayControl | null = null;
 
-    protected setupComponent() : boolean {
+    protected async setupComponent() : Promise<boolean> {
         const data  = this.props.args["data"] || [{
             time:1602247219471,
             event:{
@@ -37,7 +37,7 @@ class PlayBackComponent extends MapBaseComponent {
         
     }
 
-    protected processData() {
+    protected async processData() {
         //no
     }
 }

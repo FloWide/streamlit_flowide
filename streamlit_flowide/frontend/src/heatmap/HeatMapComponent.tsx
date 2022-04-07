@@ -8,7 +8,7 @@ class HeatMapComponent extends MapBaseComponent {
     private heatLayer:HeatLayer | null = null;
 
 
-    setupComponent() : boolean {
+    async setupComponent() : Promise<boolean> {
         if(!this.map) return false;
 
         const data = this.props.args["data"] || [];
@@ -22,7 +22,7 @@ class HeatMapComponent extends MapBaseComponent {
         return false;
     }
 
-    processData() {
+    async processData() {
         //no
     }
 

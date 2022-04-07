@@ -85,7 +85,7 @@ class ZoneEditorComponent extends MapBaseComponent {
 
     private inputDialog:InputDialog | null = null;
 
-    setupComponent(): boolean {
+    async setupComponent(): Promise<boolean> {
 
         if(!this.map) return false;
         
@@ -107,7 +107,7 @@ class ZoneEditorComponent extends MapBaseComponent {
 
     }
 
-    processData() {
+    async processData() {
         const data: {[key:string]:ZoneModel} = this.props.args["data"];
         if(data) {
             this.zoneLayer.clearLayers();
