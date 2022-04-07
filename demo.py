@@ -36,7 +36,7 @@ print(UpdateMap(
         'wss://pss-gw.flowide.net/v2/locations/websocket',
         'wss://pss-gw.flowide.net/v2/generalTags/websocket'
     ],
-    js.typescript('myhooks.ts')
+    js.typescript(js.relative_file('myhooks.ts'))
 ))
 
 

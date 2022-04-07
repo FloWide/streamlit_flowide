@@ -1,7 +1,7 @@
 import streamlit.components.v1 as components
 from .._common import variables
 from .._common.types import MapConfig,TypedDict
-from typing import Optional,List
+from typing import Optional,List,Union
 
 class InitData(TypedDict):
     markerId: str
@@ -26,7 +26,7 @@ else:
 
 
 
-def UpdateMap(config: MapConfig,data: List[InitData], ws_urls: List[str] | str,js_hook=None,key=None):
+def UpdateMap(config: MapConfig,data: List[InitData], ws_urls: Union[List[str],str],js_hook=None,key=None):
     component_value = _component_func(
         config=config,
         init_data=data,

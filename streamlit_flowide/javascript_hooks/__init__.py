@@ -6,6 +6,7 @@ import subprocess
 from pathlib import Path
 import base64
 import glob
+import inspect
 
 _TYPES = os.path.join(os.path.dirname(__file__),'types/*.d.ts')
 
@@ -41,7 +42,7 @@ def _handle_typescript_file(file: str):
 
     file_dir = os.path.dirname(file)
     ts_build_dir = os.path.join(file_dir,'ts-build')
-    os.mkdir(ts_build_dir)
+    os.makedirs(ts_build_dir,exist_ok=True)
     result = subprocess.run(['tsc',file,'--target','es2016','--outDir',ts_build_dir,'--allowJs','--allowUmdGlobalAccess',*glob.glob(_TYPES)],capture_output=True)
     if result.returncode != 0:
         shutil.rmtree(ts_build_dir)
@@ -80,6 +81,5 @@ def typescript(input: str):
         raise IllegalArgumentError("You need to pass a valid typescript file")
 
 
-if __name__ == '__main__':
-    result = typescript('../../myhooks.ts')
-    print(result[result.find(',')+1:])
+def relative_file(file_path: str):
+    return os.path.join(os.path.dirname(inspect.stack()[1].filename),file_path)

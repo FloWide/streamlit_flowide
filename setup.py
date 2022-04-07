@@ -20,7 +20,7 @@ setuptools.setup(
     include_package_data=True,
     setup_requires=['wheel'],
     classifiers=[],
-    python_requires=">=3.6",
+    python_requires=">=3.8",
     install_requires=[
         "streamlit >= 0.63",
     ],
