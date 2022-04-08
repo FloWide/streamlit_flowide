@@ -51,6 +51,7 @@
   },
   "homepage": ".",
   "devDependencies": {
-    "@types/leaflet": "^1.5.19"
+    "@types/leaflet": "^1.5.19",
+    "webpack-ignore-dynamic-require": "^1.0.0"
   }
 }

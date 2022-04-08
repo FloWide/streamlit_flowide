@@ -21,7 +21,7 @@ interface UpdateMapHook {
 }
 
 function isUpdateMapHook(obj: any): obj is UpdateMapHook {
-    return 'setup' in obj && 'message' in obj;
+    return !!obj && typeof obj === 'object' && 'setup' in obj && 'message' in obj;
 }
 
 interface HooksModule {
@@ -103,9 +103,9 @@ export default class UpdateMapComponent extends MapBaseComponent {
     
         this.readdLiveMap()
         this.hooksModule = await loadModule(this.props.args["js_hook"]);
-        if(isUpdateMapHook(this.hooksModule.default)) {
+        if(this.hooksModule && isUpdateMapHook(this.hooksModule?.default)) {
             await this.hooksModule.default.setup(this.map,this.livemap,this.props.args)
-        } else {
+        } else if(this.hooksModule) {
             for(const [key,value] of Object.entries(this.hooksModule.default)) {
                 await value.setup(this.map,this.livemap,this.props.args);
             }
@@ -176,12 +176,14 @@ export default class UpdateMapComponent extends MapBaseComponent {
         if(!this.livemap) return;
         for(const patch of ev.detail.data) {
 
-            if(isUpdateMapHook(this.hooksModule.default)) {
-                this.hooksModule.default.message(patch);
-            } else {
-                this.hooksModule.default[fromUrl].message(patch);
+            if(this.hooksModule) {
+                if(isUpdateMapHook(this.hooksModule.default)) {
+                    this.hooksModule.default.message(patch);
+                } else {
+                    this.hooksModule.default[fromUrl].message(patch);
+                }
             }
-
+            
             const splits = patch.path.split('/');
             const tagId = splits[1];
             const property = splits[2];

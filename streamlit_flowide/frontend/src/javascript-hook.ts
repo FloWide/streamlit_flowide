@@ -4,7 +4,11 @@ import * as Playback from '@flowide/leaflet-playback-plugin';
 import * as Transformation from '@flowide/leaflet-custom-transformation';
 
 export async function loadModule<T extends {}>(code: string): Promise<T> {
-    return (await import( /* webpackIgnore: true */ code)) as T;
+    try{
+        return (await import( /* webpackIgnore: true */ code)) as T;
+    } catch(e) {
+        return null;
+    }
 }
 
 export function bootstrapGlobals() {
