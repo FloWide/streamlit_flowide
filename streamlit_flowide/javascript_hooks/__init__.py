@@ -20,7 +20,7 @@ def _is_program_exists(name: str) -> bool:
     return which(name) is not None
 
 def _code_to_encoded_string(code: str) -> str:
-    return f"data:text/javascript;base64,{base64.urlsafe_b64encode(code.encode()).decode()}"
+    return f"data:text/javascript;base64,{base64.b64encode(code.encode()).decode()}"
 
 def _run_rollup_bundling(entry_file: str):
     result = subprocess.run(['rollup',entry_file],capture_output=True)

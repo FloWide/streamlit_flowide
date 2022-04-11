@@ -5,6 +5,7 @@ import {Map as LeafletMap,map as createMap, LatLngBounds,easyButton, TileLayer} 
 import 'leaflet-easybutton';
 import RasterCoords from "./RasterCoords";
 import {mat3,vec2} from 'gl-matrix';
+import isEqual from 'lodash.isequal';
 
 interface TileLayerConfig {
     imgSize: [number,number];
@@ -34,8 +35,6 @@ export default class MapBaseComponent<S = {}> extends React.PureComponent<Compon
     protected isRendered: boolean = false;
 
     protected componentReady: boolean = false;
-
-    protected previousConfig: string = '';
 
     protected mapConfig: MapConfig = null;
 
@@ -67,11 +66,11 @@ export default class MapBaseComponent<S = {}> extends React.PureComponent<Compon
 
         if(config && this.isNewConfig(config)) {
             this.isRendered = false;
+            this.mapConfig = config;
             this.setupMap(config);
             this.componentReady = await this.setupComponent();
-            this.previousConfig = JSON.stringify(config);
-        } else if(!this.isRendered && this.previousConfig) {
-            this.setupMap(JSON.parse(this.previousConfig));
+        } else if(!this.isRendered && this.mapConfig) {
+            this.setupMap(this.mapConfig);
             this.componentReady = await this.setupComponent();
         } else {
             if (this.componentReady)
@@ -164,7 +163,7 @@ export default class MapBaseComponent<S = {}> extends React.PureComponent<Compon
 
 
     protected isNewConfig(config:MapConfig) : boolean {
-        return JSON.stringify(config) !== this.previousConfig;
+        return !isEqual(config,this.mapConfig);
     }
 
     protected gpsTransformation(gps: [number,number]) {

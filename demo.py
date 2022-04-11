@@ -36,7 +36,8 @@ print(UpdateMap(
         'wss://pss-gw.flowide.net/v2/locations/websocket',
         'wss://pss-gw.flowide.net/v2/generalTags/websocket'
     ],
-    js.typescript(js.relative_file('myhooks.ts'))
+    js.typescript(js.relative_file('myhooks.ts')),
+    my_random_argument="hello"
 ))
 
 
