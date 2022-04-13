@@ -26,7 +26,7 @@ else:
 
 
 
-def UpdateMap(config: MapConfig,data: List[InitData], ws_urls: Union[List[str],str],js_hook=None,key=None,**kwargs):
+def UpdateMap(config: MapConfig,data: List[InitData], ws_urls: Union[List[str],str],js_hook=None,key=None,auto_move=True,**kwargs):
     component_value = _component_func(
         config=config,
         init_data=data,
@@ -35,6 +35,7 @@ def UpdateMap(config: MapConfig,data: List[InitData], ws_urls: Union[List[str],s
         ws_urls=(ws_urls if isinstance(ws_urls,list) else [ws_urls] ),
         js_hook=js_hook,
         component=COMPONENT_NAME,
+        auto_move=auto_move
         **kwargs
     )
     return component_value

@@ -183,6 +183,9 @@ export default class UpdateMapComponent extends MapBaseComponent {
                     this.hooksModule.default[fromUrl].message(patch);
                 }
             }
+
+            if(!this.props.args["auto_move"])
+                continue;
             
             const splits = patch.path.split('/');
             const tagId = splits[1];
