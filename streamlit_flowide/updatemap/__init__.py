@@ -1,6 +1,6 @@
 import streamlit.components.v1 as components
 from .._common import variables
-from .._common.types import MapConfig,TypedDict
+from .._common.types import MapConfig,TypedDict,CRS
 from typing import Optional,List,Union
 
 class InitData(TypedDict):
@@ -26,7 +26,7 @@ else:
 
 
 
-def UpdateMap(config: MapConfig,data: List[InitData], ws_urls: Union[List[str],str],js_hook=None,key=None,auto_move=True,**kwargs):
+def UpdateMap(config: MapConfig,data: List[InitData], ws_urls: Union[List[str],str],js_hook=None,key=None,auto_move=True,crs: CRS = CRS.Meter, **kwargs):
     component_value = _component_func(
         config=config,
         init_data=data,
@@ -35,7 +35,8 @@ def UpdateMap(config: MapConfig,data: List[InitData], ws_urls: Union[List[str],s
         ws_urls=(ws_urls if isinstance(ws_urls,list) else [ws_urls] ),
         js_hook=js_hook,
         component=COMPONENT_NAME,
-        auto_move=auto_move
+        auto_move=auto_move,
+        crs=crs,
         **kwargs
     )
     return component_value

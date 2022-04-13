@@ -5,6 +5,8 @@ from .playback import PlayBack
 from .zone_editor import ZoneEditor
 from .graphmap import GraphMap
 from .updatemap import UpdateMap
+from .custommap import CustomMap
+from ._common.types import CRS
 
 __all__ = [
     'LiveMap',
@@ -13,5 +15,7 @@ __all__ = [
     'PlayBack',
     'ZoneEditor',
     'GraphMap',
-    'UpdateMap'
+    'UpdateMap',
+    'CRS',
+    'CustomMap'
 ]

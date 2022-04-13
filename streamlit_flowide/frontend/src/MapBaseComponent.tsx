@@ -1,7 +1,7 @@
 import { ComponentProps } from "streamlit-component-lib";
 import React,{RefObject, ReactNode} from 'react'
 import {Array3x3, CustomCRS, ImageOverlayExcludeCRS, MatrixTransformationConfig} from '@flowide/leaflet-custom-transformation'
-import {Map as LeafletMap,map as createMap, LatLngBounds,easyButton, TileLayer} from 'leaflet';
+import {Map as LeafletMap,map as createMap, LatLngBounds,easyButton, TileLayer,CRS} from 'leaflet';
 import 'leaflet-easybutton';
 import RasterCoords from "./RasterCoords";
 import {mat3,vec2} from 'gl-matrix';
@@ -11,6 +11,16 @@ interface TileLayerConfig {
     imgSize: [number,number];
     urlTemplate: string;
     tileSize?: number;
+}
+
+
+enum CHOSEN_CRS {
+    EPSG3395 = 'EPSG3395',
+    EPSG3857 = 'EPSG3857',
+    EPSG4326 = 'EPSG4326',
+    Earth = 'Earth',
+    Simple = 'Simple',
+    Meter = 'Meter'
 }
 
 interface MapConfig {
@@ -67,10 +77,10 @@ export default class MapBaseComponent<S = {}> extends React.PureComponent<Compon
         if(config && this.isNewConfig(config)) {
             this.isRendered = false;
             this.mapConfig = config;
-            this.setupMap(config);
+            await this.setupMap(config);
             this.componentReady = await this.setupComponent();
         } else if(!this.isRendered && this.mapConfig) {
-            this.setupMap(this.mapConfig);
+            await this.setupMap(this.mapConfig);
             this.componentReady = await this.setupComponent();
         } else {
             if (this.componentReady)
@@ -93,13 +103,12 @@ export default class MapBaseComponent<S = {}> extends React.PureComponent<Compon
                 this.map.off();
                 this.map.remove();
             }
-
+            this.mapConfig = config;
             this.map = createMap(this.container.current,{
-                crs:(new CustomCRS(config.map) as any),
+                crs:this.getCrs(this.props.args["crs"]),
                 attributionControl: false,
                 maxZoom:12
-            });
-            this.mapConfig = config;
+            }).setView([0,0],4);
 
             if(config.gpsTransform)
                 this.gpsTransformMatrix = fromArray3x3(config.gpsTransform)
@@ -151,6 +160,24 @@ export default class MapBaseComponent<S = {}> extends React.PureComponent<Compon
         }
     }
 
+
+    private getCrs(option: CHOSEN_CRS) : CRS {
+        switch (option) {
+            case CHOSEN_CRS.EPSG3395:
+                return CRS.EPSG3395;
+            case CHOSEN_CRS.EPSG3857:
+                return CRS.EPSG3857
+            case CHOSEN_CRS.EPSG4326:
+                return CRS.EPSG4326
+            case CHOSEN_CRS.Earth:
+                return CRS.Earth
+            case CHOSEN_CRS.Simple:
+                return CRS.Simple
+            case CHOSEN_CRS.Meter:
+            default:
+                return (new CustomCRS(this.mapConfig.map) as any)
+        }
+    }
        
 
     protected async setupComponent() : Promise<boolean> {

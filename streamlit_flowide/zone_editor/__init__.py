@@ -1,5 +1,7 @@
 import os
 import streamlit.components.v1 as components
+
+from streamlit_flowide._common.types import CRS
 from .._common import variables
 
 # Create a _RELEASE constant. We'll set this to False while we're developing
@@ -29,9 +31,9 @@ else:
 
 
 
-def ZoneEditor(config,data=None,key=None):
+def ZoneEditor(config,data=None,key=None,crs: CRS = CRS.Meter):
 
-    component_value = _component_func(config=config,key=key, data=data,default=0,component=COMPONENT_NAME)
+    component_value = _component_func(config=config,key=key, data=data,default=0,component=COMPONENT_NAME,crs=crs)
 
     # We could modify the value returned from the component if we wanted.
     # There's no need to do this in our simple example - but it's an option.

@@ -2,7 +2,7 @@ import streamlit.components.v1 as components
 from time import time, sleep
 import streamlit as st
 from .._common import variables
-from .._common.types import MapConfig
+from .._common.types import CRS, MapConfig
 from .._common.gps_transform import create_transform_function
 from typing import Callable, List
 
@@ -331,10 +331,10 @@ else:
         COMPONENT_NAME, path=variables.FRONTEND_BUILD, component_type=LiveMapContext)
 
 
-def LiveMap(config: MapConfig, cluster=False, key=None) -> LiveMapContext:
+def LiveMap(config: MapConfig, cluster=False, key=None,crs: CRS=CRS.Meter) -> LiveMapContext:
 
     value: LiveMapContext = _component_func(
-        config=config, cluster=cluster, key=key, component=COMPONENT_NAME)
+        config=config, cluster=cluster, key=key, component=COMPONENT_NAME,crs=crs)
     value.set_gps_transform(
         create_transform_function(config.get('gps_transform')))
     return value

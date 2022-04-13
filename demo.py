@@ -22,7 +22,6 @@ config = {
 }
 
 
-
 print(UpdateMap(
     config,
     [{
@@ -37,9 +36,16 @@ print(UpdateMap(
         'wss://pss-gw.flowide.net/v2/generalTags/websocket'
     ],
     js.typescript(js.relative_file('myhooks.ts')),
-    my_random_argument="hello"
+    my_random_argument="hello",
+    crs=CRS.Meter # defaut
 ))
 
+
+
+CustomMap(
+    js.typescript(js.relative_file('mymap.ts')),
+    custom_argument="hello"
+)
 
 # stuff = GraphMap(config,{
 #         'nodes':{},

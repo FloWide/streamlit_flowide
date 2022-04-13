@@ -1,7 +1,7 @@
 import os
 import streamlit.components.v1 as components
 from .._common import variables
-from .._common.types import MapConfig,TypedDict
+from .._common.types import CRS, MapConfig,TypedDict
 from .._common.gps_transform import create_transform_function
 from typing import Iterable,Callable,List
 
@@ -49,14 +49,15 @@ def _prepare_data(data:Iterable[PlaybackElement],transform: Callable[[List[float
     return pdata
 
 
-def PlayBack(config: MapConfig,data: Iterable[PlaybackElement], cluster=False,key=None):
+def PlayBack(config: MapConfig,data: Iterable[PlaybackElement], cluster=False,key=None,crs: CRS = CRS.Meter):
     component_value = _component_func(
         config=config,
         data=_prepare_data(data,create_transform_function(config.get("gps_transform"))),
         key=key, 
         default=0,
         cluster=cluster,
-        component=COMPONENT_NAME
+        component=COMPONENT_NAME,
+        crs=crs
     )
     return component_value
 

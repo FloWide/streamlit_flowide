@@ -17,7 +17,4 @@ class MyHooks implements Hooks.UpdateMapHook {
 }
 
 
-export default {
-    'wss://pss-gw.flowide.net/v2/locations/websocket':new MyHooks("locations-hook"),
-    'wss://pss-gw.flowide.net/v2/generalTags/websocket':new MyHooks("tags-hook")
-};
+export default new MyHooks('');

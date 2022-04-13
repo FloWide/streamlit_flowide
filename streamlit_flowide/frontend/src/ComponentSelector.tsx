@@ -9,6 +9,7 @@ import LiveMapComponent from "./livemap/LiveMapComponent";
 import ZoneEditorComponent from "./zone-editor/ZoneEditorComponent";
 import GraphMapComponent from "./graphmap/graphmap";
 import UpdateMapComponent from "./livemap/UpdateMapComponent";
+import CustomMapComponent from "./custommap/custommap";
 
 
 class ComponentSelector extends StreamlitComponentBase {
@@ -72,6 +73,14 @@ class ComponentSelector extends StreamlitComponentBase {
             case 'streamlit_flowide_updatemap':
                 return (
                     <UpdateMapComponent
+                        args={this.props.args}
+                        disabled={this.props.disabled}
+                        width={this.props.width}
+                    />
+                )
+            case 'streamlit_custom_map':
+                return (
+                    <CustomMapComponent
                         args={this.props.args}
                         disabled={this.props.disabled}
                         width={this.props.width}

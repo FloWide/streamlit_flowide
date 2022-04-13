@@ -13,8 +13,21 @@ export interface JsonPatch {
     }
 }
 
+export type Args = Record<string,any>
+
 export interface UpdateMapHook {
-    setup(map:L.Map,livemap: L.Playback.LivePlay,args: Record<string,any>): Promise<void>;
+    setup(map:L.Map,livemap: L.Playback.LivePlay,args: Args): Promise<void>;
 
     message(patch:Hooks.JsonPatch):void;
+}
+
+
+
+export interface CustomMap {
+
+    setupMap(container: HTMLDivElement,args?: Args): Promise<L.Map>;
+
+    setupComponent(args?: Args): Promise<boolean>;
+
+    onRerun(args?: Args): void;
 }
