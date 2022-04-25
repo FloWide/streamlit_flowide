@@ -6,19 +6,17 @@ st.set_page_config(layout="wide")
 
 
 config = {
-    'map':{
-        'lowerBounds':[0,0],
-        'upperBounds':[24,16],
-        'transform':[[1.0,0.0,0.0],[0.0,1.0,0],[0.0,0.0,1.0]],
-        'untransform':[[1.0,0.0,0.0],[0.0,1.0,0],[0.0,0.0,1.0]]
-    },
     'height':'900px',
-    'gpsTransform':[
-        [-1,0,0],
-        [0,1,0],
-        [0,0,1]
-    ],
-    'image':'https://swisskrono-gw.flowide.net/settings/map/svg'
+    'tileLayer':{
+        'urlTemplate':'https://swisskrono-gw.flowide.net/livemap-swisskrono-out/tile_out4/{z}/{x}/{y}.png'
+    },
+    'pixel':{
+        'imgWidth':56844,
+        'imgHeight':53795,
+        'unitToPixel':{ # untransform optional
+            'transform':[[2451357.591514033, 3371040.249180861, -193117578.0733881], [-5050614.925448298, 1635954.424450811, 206646664.5841257], [0.0, 0.0, 1.0]]
+        }
+    }
 }
 
 
@@ -26,7 +24,7 @@ print(UpdateMap(
     config,
     [{
         'markerId':'marker1',
-        'position':[0,0],
+        'position':[48.13037983959886, 22.294233664870266],
         'tags':['tag.50332785'],
         'scale':0.8,
         'color':'royalblue'
@@ -37,7 +35,7 @@ print(UpdateMap(
     ],
     js.typescript(js.relative_file('myhooks.ts')),
     my_random_argument="hello",
-    crs=CRS.Meter # defaut
+    crs=CRS.Pixel
 ))
 
 

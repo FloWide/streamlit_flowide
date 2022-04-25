@@ -1,14 +1,14 @@
 import { ComponentProps } from "streamlit-component-lib";
 import React,{RefObject, ReactNode} from 'react'
-import {Array3x3, CustomCRS, ImageOverlayExcludeCRS, MatrixTransformationConfig} from '@flowide/leaflet-custom-transformation'
+import {Array3x3, CustomCRS, ImageOverlayExcludeCRS, MatrixTransformationConfig, PixelCRS, PixelCRSOptions} from '@flowide/leaflet-custom-transformation'
 import {Map as LeafletMap,map as createMap, LatLngBounds,easyButton, TileLayer,CRS} from 'leaflet';
 import 'leaflet-easybutton';
 import RasterCoords from "./RasterCoords";
 import {mat3,vec2} from 'gl-matrix';
 import isEqual from 'lodash.isequal';
+import { runInThisContext } from "vm";
 
 interface TileLayerConfig {
-    imgSize: [number,number];
     urlTemplate: string;
     tileSize?: number;
 }
@@ -20,7 +20,8 @@ enum CHOSEN_CRS {
     EPSG4326 = 'EPSG4326',
     Earth = 'Earth',
     Simple = 'Simple',
-    Meter = 'Meter'
+    Meter = 'Meter',
+    Pixel = 'Pixel'
 }
 
 interface MapConfig {
@@ -29,6 +30,7 @@ interface MapConfig {
     height?:string;
     tileLayer: TileLayerConfig;
     gpsTransform: Array3x3;
+    pixel?:PixelCRSOptions;
 }
 
 
@@ -107,7 +109,7 @@ export default class MapBaseComponent<S = {}> extends React.PureComponent<Compon
             this.map = createMap(this.container.current,{
                 crs:this.getCrs(this.props.args["crs"]),
                 attributionControl: false,
-                maxZoom:12
+                preferCanvas:true,
             }).setView([0,0],4);
 
             if(config.gpsTransform)
@@ -121,20 +123,17 @@ export default class MapBaseComponent<S = {}> extends React.PureComponent<Compon
                 this.map.fitBounds(this.imageOverlay.getBounds())
             }
 
-            if(config.tileLayer) {
-                const rc = new RasterCoords(this.map,config.tileLayer.imgSize[0],config.tileLayer.imgSize[1],config.tileLayer.tileSize);
-                this.map.setMaxZoom(rc.zoomLevel());
-                this.map.setView(rc.unproject([
-                    config.tileLayer.imgSize[0],
-                    config.tileLayer.imgSize[1]
-                ]
-                ),2)
-                this.tileLayer = new TileLayer(config.tileLayer.urlTemplate,{
-                    noWrap:true,
-                    bounds:rc.getMaxBounds(),
-                    maxNativeZoom:rc.zoomLevel()
-                });
+            if(config?.tileLayer) {
+                this.tileLayer = new TileLayer(this.mapConfig.tileLayer.urlTemplate)
                 this.tileLayer.addTo(this.map);
+            }
+
+            if(this.props.args["crs"] == CHOSEN_CRS.Pixel && config?.pixel) {
+                const crs: PixelCRS = this.map.options.crs as any;
+                this.map.setMaxZoom(crs.zoomLevel());
+                this.map.setMaxBounds(crs.getMaxBounds());
+                this.map.setZoom(0);
+                this.map.setView(crs.getMaxBounds().getCenter())
             }
 
             this.isRendered = true;
@@ -173,6 +172,8 @@ export default class MapBaseComponent<S = {}> extends React.PureComponent<Compon
                 return CRS.Earth
             case CHOSEN_CRS.Simple:
                 return CRS.Simple
+            case CHOSEN_CRS.Pixel:
+                return (new PixelCRS(this.mapConfig.pixel) as any)
             case CHOSEN_CRS.Meter:
             default:
                 return (new CustomCRS(this.mapConfig.map) as any)

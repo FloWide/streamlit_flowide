@@ -29,3 +29,4 @@ class CRS(str,Enum):
     Earth = 'Earth',
     Simple = 'Simple',
     Meter = 'Meter'
+    Pixel = 'Pixel'
