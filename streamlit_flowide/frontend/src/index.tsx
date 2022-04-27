@@ -1,6 +1,8 @@
 import React from "react"
 import ReactDOM from "react-dom"
 
+import L from "leaflet";
+import 'leaflet.sync'
 import 'leaflet/dist/leaflet.css';
 import '@flowide/leaflet-playback-plugin/dist/index.min.css';
 import '@flowide/leaflet-spaghetti-plugin/dist/index.css';
@@ -15,7 +17,6 @@ import 'leaflet-dialog/Leaflet.Dialog.css';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import icon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-import L from "leaflet";
 import ComponentSelector from "./ComponentSelector";
 import { bootstrapGlobals } from "./javascript-hook";
 
@@ -36,6 +37,16 @@ ReactDOM.render(
   document.getElementById("root")
 )
 
+
+declare module 'leaflet' {
+
+  interface Map {
+    sync(m:L.Map,options: any): void;
+    unsync(m:L.Map): void;
+    isSynced(m:L.Map): boolean;
+  }
+
+}
 
 declare module 'leaflet-arrowheads' {
 

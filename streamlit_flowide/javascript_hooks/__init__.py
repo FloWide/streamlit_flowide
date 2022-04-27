@@ -45,7 +45,7 @@ def _handle_typescript_file(file: str):
     os.makedirs(ts_build_dir,exist_ok=True)
     result = subprocess.run(['tsc',file,'--target','es2016','--outDir',ts_build_dir,'--allowJs','--allowUmdGlobalAccess',*glob.glob(_TYPES)],capture_output=True)
     if result.returncode != 0:
-        shutil.rmtree(ts_build_dir)
+        shutil.rmtree(ts_build_dir,ignore_errors=True)
         raise TypeScriptCompileError(result.stdout.decode('utf-8'))
 
     bundled = _run_rollup_bundling( os.path.join(ts_build_dir, f"{Path(file).stem}.js"  ))

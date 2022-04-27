@@ -19,6 +19,8 @@ export interface UpdateMapHook {
     setup(map:L.Map,livemap: L.Playback.LivePlay,args: Args): Promise<void>;
 
     message(patch:Hooks.JsonPatch):void;
+
+    onRerun(args?: Args): void;
 }
 
 

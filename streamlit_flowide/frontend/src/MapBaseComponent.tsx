@@ -3,10 +3,8 @@ import React,{RefObject, ReactNode} from 'react'
 import {Array3x3, CustomCRS, ImageOverlayExcludeCRS, MatrixTransformationConfig, PixelCRS, PixelCRSOptions} from '@flowide/leaflet-custom-transformation'
 import {Map as LeafletMap,map as createMap, LatLngBounds,easyButton, TileLayer,CRS} from 'leaflet';
 import 'leaflet-easybutton';
-import RasterCoords from "./RasterCoords";
 import {mat3,vec2} from 'gl-matrix';
 import isEqual from 'lodash.isequal';
-import { runInThisContext } from "vm";
 
 interface TileLayerConfig {
     urlTemplate: string;
@@ -58,12 +56,8 @@ export default class MapBaseComponent<S = {}> extends React.PureComponent<Compon
         this.container = React.createRef<HTMLDivElement>();
     }
 
-    componentDidMount() {
-        this.renderLogic();
-    }
-
     render() : ReactNode {
-        this.renderLogic();        
+        this.renderLogic();
         return (
             <div 
                 ref={this.container}

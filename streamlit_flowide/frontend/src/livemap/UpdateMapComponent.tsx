@@ -18,6 +18,8 @@ interface UpdateMapHook {
     setup(map:LeafletMap,livemap: LivePlay,args: Record<string,any>): Promise<void>;
 
     message(patch:JsonPatch):void;
+
+    onRerun(args: Record<string,any>): void;
 }
 
 function isUpdateMapHook(obj: any): obj is UpdateMapHook {
@@ -114,7 +116,13 @@ export default class UpdateMapComponent extends MapBaseComponent {
     }
 
     protected async processData() {
-        
+        if(this.hooksModule && isUpdateMapHook(this.hooksModule?.default)) {
+            this.hooksModule.default.onRerun(this.props.args);
+        } else if(this.hooksModule) {
+            for(const [key,value] of Object.entries(this.hooksModule.default)) {
+                value.rerun(this.props.args);
+            }
+        }
     }
 
     private readdLiveMap() {
