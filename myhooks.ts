@@ -15,10 +15,10 @@ class MyHooks implements Hooks.UpdateMapHook {
     message(patch: Hooks.JsonPatch): void {
         //console.log("message from",this.hookName,patch);
     }
-
+    /*
     onRerun(args?: Args): void {
         console.log("onrerun")
-    }
+    }*/
 
 }
 

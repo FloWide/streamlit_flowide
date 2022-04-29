@@ -20,7 +20,7 @@ export interface UpdateMapHook {
 
     message(patch:Hooks.JsonPatch):void;
 
-    onRerun(args?: Args): void;
+    onRerun?(args?: Args): void;
 }
 
 
