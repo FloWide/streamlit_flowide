@@ -57,6 +57,7 @@ class MapSyncService {
 
     setMaster(map:LeafletMap) {
         this.master = map;
+        this.maps.set("master",map);
         for(const m of this.toSync) {
             this.master.sync(m,{
                 offsetFn: (center: LatLng,zoom: number,refMap: LeafletMap,targetMap: LeafletMap) => {
@@ -140,12 +141,12 @@ export class FloWideMap<S = {}> extends React.PureComponent<ComponentProps,S>  {
         }
 
         if(this.mapModule)
-            this.mapModule.setup(this.mapSyncService.master,this.mapSyncService.first,this.mapSyncService.maps,this.props.args);
+            this.mapModule.setup(this.mapSyncService.master,this.mapSyncService.first,this.mapSyncService.maps,getCleanArgs(this.props.args));
     }
 
     render(): ReactNode {
         if(this.mapModule)
-            this.mapModule.onRerun(this.props.args);
+            this.mapModule.onRerun(getCleanArgs(this.props.args));
         const config: FloWideMapConfig = this.props.args["config"] 
         return (
             <div 

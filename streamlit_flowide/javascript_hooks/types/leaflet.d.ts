@@ -2299,7 +2299,7 @@ export namespace Playback {
         private timeline;
         private map;
         private spinner;
-        constructor(playback: PlayBack);
+        constructor(...playback: PlayBack[]);
         onAdd(map: L.Map): HTMLElement;
         private createHtml;
         private timerHandler;

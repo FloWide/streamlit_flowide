@@ -65,3 +65,5 @@ export interface FloWideMap {
     onRerun(args: Args): void;
 
 }
+
+export function switchFromMapCoords(fromMap: L.Map,toMap: L.Map,latlng: L.LatLng): L.LatLng;
