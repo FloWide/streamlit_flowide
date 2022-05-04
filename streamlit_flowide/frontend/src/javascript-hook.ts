@@ -7,6 +7,7 @@ export async function loadModule<T extends {}>(code: string): Promise<T> {
     try{
         return (await import( /* webpackIgnore: true */ code)) as T;
     } catch(e) {
+        console.error("Module load error:",e.message);
         return null;
     }
 }

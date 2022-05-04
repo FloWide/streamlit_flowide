@@ -6,6 +6,7 @@ from .zone_editor import ZoneEditor
 from .graphmap import GraphMap
 from .updatemap import UpdateMap
 from .custommap import CustomMap
+from .flowidemap import FloWideMap
 from ._common.types import CRS
 
 __all__ = [
@@ -17,5 +18,6 @@ __all__ = [
     'GraphMap',
     'UpdateMap',
     'CRS',
-    'CustomMap'
+    'CustomMap',
+    'FloWideMap'
 ]

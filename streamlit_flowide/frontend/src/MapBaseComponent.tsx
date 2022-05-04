@@ -58,6 +58,7 @@ export default class MapBaseComponent<S = {}> extends React.PureComponent<Compon
 
     render() : ReactNode {
         this.renderLogic();
+        console.log("render")
         return (
             <div 
                 ref={this.container}

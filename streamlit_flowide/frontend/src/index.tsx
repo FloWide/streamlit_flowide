@@ -32,7 +32,7 @@ L.Marker.prototype.options.icon = DefaultIcon;
 bootstrapGlobals();
 ReactDOM.render(
   <React.StrictMode>
-    <ComponentSelector />
+    <ComponentSelector></ComponentSelector>
   </React.StrictMode>,
   document.getElementById("root")
 )
