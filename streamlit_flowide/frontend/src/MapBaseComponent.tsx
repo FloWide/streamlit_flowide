@@ -24,7 +24,7 @@ enum CHOSEN_CRS {
 
 interface MapConfig {
     map:MatrixTransformationConfig & {lowerBounds:[number,number];upperBounds:[number,number]};
-    initalView:[number,number,number];
+    initialView:[number,number,number];
     image:string;
     height?:string;
     tileLayer: TileLayerConfig;
@@ -108,8 +108,8 @@ export default class MapBaseComponent<S = {}> extends React.PureComponent<Compon
                 preferCanvas:true,
             }).setView([0,0],4);
 
-            if (this.mapConfig?.initalView) {
-                this.map.setView([this.mapConfig.initalView[0],this.mapConfig.initalView[1]],this.mapConfig.initalView[2])
+            if (this.mapConfig?.initialView) {
+                this.map.setView([this.mapConfig.initialView[0],this.mapConfig.initialView[1]],this.mapConfig.initialView[2])
             }
 
             if(config.gpsTransform)
@@ -132,11 +132,11 @@ export default class MapBaseComponent<S = {}> extends React.PureComponent<Compon
                 const crs: PixelCRS = this.map.options.crs as any;
                 this.map.setMaxZoom(crs.zoomLevel());
                 this.map.setMaxBounds(crs.getMaxBounds());
-                if(!this.mapConfig.initalView) {
+                if(!this.mapConfig.initialView) {
                     this.map.setZoom(0);
                     this.map.setView(crs.getMaxBounds().getCenter())
                 } else {
-                    this.map.setView([this.mapConfig.initalView[0],this.mapConfig.initalView[1]],this.mapConfig.initalView[2])
+                    this.map.setView([this.mapConfig.initialView[0],this.mapConfig.initialView[1]],this.mapConfig.initialView[2])
                 }
             }
 
