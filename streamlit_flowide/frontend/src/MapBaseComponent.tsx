@@ -106,7 +106,7 @@ export default class MapBaseComponent<S = {}> extends React.PureComponent<Compon
                 crs:this.getCrs(this.props.args["crs"]),
                 attributionControl: false,
                 preferCanvas:true,
-            });
+            }).setView([0,0],4);
 
             if (this.mapConfig?.initalView) {
                 this.map.setView([this.mapConfig.initalView[0],this.mapConfig.initalView[1]],this.mapConfig.initalView[2])
