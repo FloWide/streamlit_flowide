@@ -11,8 +11,8 @@ import 'leaflet-easybutton/src/easy-button.css'
 import '@fortawesome/fontawesome-free/css/all.css';
 import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css';
 import 'leaflet-dialog/Leaflet.Dialog.css';  
-
-
+import 'leaflet-modal';
+import 'leaflet-modal/dist/leaflet.modal.min.css';
 
 import icon from 'leaflet/dist/images/marker-icon.png';
 import icon2x from 'leaflet/dist/images/marker-icon-2x.png';
