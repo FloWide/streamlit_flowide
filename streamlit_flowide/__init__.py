@@ -1,4 +1,3 @@
-from .livemap import LiveMap
 from .heatmap import HeatMap
 from .spaghetti import Spaghetti
 from .playback import PlayBack
@@ -10,7 +9,6 @@ from .flowidemap import FloWideMap,FloWidePlayBack,FloWideUpdateMap
 from ._common.types import CRS
 
 __all__ = [
-    'LiveMap',
     'HeatMap',
     'Spaghetti',
     'PlayBack',
