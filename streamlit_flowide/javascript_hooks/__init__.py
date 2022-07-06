@@ -1,6 +1,8 @@
+import functools
 from shutil import which
 import os
 import shutil
+from typing import Callable, Dict
 import warnings
 import subprocess
 from pathlib import Path
@@ -8,7 +10,91 @@ import base64
 import glob
 import inspect
 
+import hashlib
 _TYPES = os.path.join(os.path.dirname(__file__),'types/*.d.ts')
+
+CACHE_FOLDER = '/tmp/streamlit_flowide/cache'
+
+class DiskCache:
+
+    def __init__(self) -> None:
+
+        if not os.path.exists(CACHE_FOLDER):
+            os.makedirs(CACHE_FOLDER)
+
+        self._files = set(
+            map(
+                lambda e: os.path.basename(e),
+                glob.glob(os.path.join(CACHE_FOLDER,'*'))
+            )
+        )
+        self._memory_cache: Dict[str,str] = {}
+
+    def check_exists(self,hash: str):
+        return hash in self._files
+
+    def get_cached_value(self,hash: str):
+        if not self.check_exists(hash):
+            raise ValueError(f'no entry for {hash}')
+
+        if hash in self._memory_cache:
+            return self._memory_cache[hash]
+
+        with open(os.path.join(CACHE_FOLDER,hash),'r') as f:
+            code = f.read()
+            self._memory_cache[hash] = code
+            return code
+
+    def set_cached_value(self,hash: str,value: str):
+        with open(os.path.join(CACHE_FOLDER,hash),'w+') as f:
+            f.write(value)
+        self._files.add(hash)
+        self._memory_cache[hash] = value
+
+    @staticmethod
+    def hash_file_content(input_file: str):
+        hash = hashlib.md5(usedforsecurity=False)
+        with open(input_file,'rb') as f:
+            for chunk in iter(lambda: f.read(4096), b""):
+                hash.update(chunk)
+        return hash.hexdigest()
+
+    @staticmethod
+    def hash_dir_content(directory: str):
+        return DiskCache._hash_dir(directory,hashlib.md5(usedforsecurity=False)).hexdigest()
+        
+
+    def _hash_dir(directory: str | Path,hash):
+        assert Path(directory).is_dir()
+        for path in Path(directory).iterdir():
+            if path.is_file():
+                with open(path, "rb") as f:
+                    for chunk in iter(lambda: f.read(4096), b""):
+                        hash.update(chunk)
+            elif path.is_dir():
+                hash = DiskCache._hash_dir(path, hash)
+        return hash
+
+
+_disk_cache = DiskCache()
+
+
+def disk_cache(func: Callable[[str],str]):
+    @functools.wraps(func)
+    def with_cache(input: str):
+        if os.path.isfile(input):
+            hash = _disk_cache.hash_file_content(input)
+        else:
+            hash = _disk_cache.hash_dir_content(input)
+        if not _disk_cache.check_exists(hash):
+            value = func(input)
+            _disk_cache.set_cached_value(hash,value)
+            return value
+        else:
+            return _disk_cache.get_cached_value(hash)
+    return with_cache
+        
+
 
 class IllegalArgumentError(ValueError):
     pass
@@ -53,7 +139,7 @@ def _handle_typescript_file(file: str):
     return _code_to_encoded_string(bundled)
 
 
-def javascript(input: str):
+def _javascript(input: str):
     if os.path.isfile(input):
         if not input.endswith(".js"):
             raise IllegalArgumentError(f"Expected a .js file got:{input}")
@@ -67,7 +153,7 @@ def javascript(input: str):
         return _code_to_encoded_string(input)
 
 
-def typescript(input: str):
+def _typescript(input: str):
     if os.path.isfile(input):
         if not input.endswith(".ts"):
             raise IllegalArgumentError(f"Expected a .ts file got: {input}")
@@ -79,6 +165,13 @@ def typescript(input: str):
         return _handle_typescript_file(index_file)
     else:
         raise IllegalArgumentError("You need to pass a valid typescript file")
+
+
+typescript_dev = _typescript
+javascript_dev = _javascript
+
+typescript = disk_cache(_typescript)
+javascript = disk_cache(_javascript)
 
 
 def relative_file(file_path: str):

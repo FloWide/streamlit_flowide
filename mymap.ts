@@ -1,7 +1,7 @@
 
 
 
-
+import 'leaflet'
 
 class MyMap implements Hooks.FloWideMap {
 
@@ -23,7 +23,7 @@ class MyMap implements Hooks.FloWideMap {
         console.log(L);
     }
     onRerun(args: Hooks.Args): void {
-        console.log("flowidemap rerun");
+        console.log("flowidemap rerun2");
     }
 
 }
