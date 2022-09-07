@@ -23,5 +23,6 @@ setuptools.setup(
     python_requires=">=3.8",
     install_requires=[
         "streamlit >= 0.63",
+        "filelock >= 3.8.0"
     ],
 )

@@ -9,6 +9,7 @@ from pathlib import Path
 import base64
 import glob
 import inspect
+from filelock import FileLock
 
 import hashlib
 _TYPES = os.path.join(os.path.dirname(__file__),'types/*.d.ts')
@@ -82,16 +83,17 @@ _disk_cache = DiskCache()
 def disk_cache(func: Callable[[str],str]):
     @functools.wraps(func)
     def with_cache(input: str):
-        if os.path.isfile(input):
-            hash = _disk_cache.hash_file_content(input)
-        else:
-            hash = _disk_cache.hash_dir_content(input)
-        if not _disk_cache.check_exists(hash):
-            value = func(input)
-            _disk_cache.set_cached_value(hash,value)
-            return value
-        else:
-            return _disk_cache.get_cached_value(hash)
+        with FileLock(f"{input}.lock"):
+            if os.path.isfile(input):
+                hash = _disk_cache.hash_file_content(input)
+            else:
+                hash = _disk_cache.hash_dir_content(input)
+            if not _disk_cache.check_exists(hash):
+                value = func(input)
+                _disk_cache.set_cached_value(hash,value)
+                return value
+            else:
+                return _disk_cache.get_cached_value(hash)
     return with_cache
         
 
