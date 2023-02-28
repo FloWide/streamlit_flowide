@@ -10,6 +10,7 @@ interface MapProps {
     syncService:MapSyncService;
     id: string;
     config: PixelCRSOptions;
+    initialView?: [number, number, number];
 }
 
 type TileOptions = {urlTemplate:string} & TileLayerOptions;
@@ -18,6 +19,7 @@ type TileOptions = {urlTemplate:string} & TileLayerOptions;
 interface FloWideMapConfig {
     tileLayers:TileOptions[];
     masterMap:PixelCRSOptions;
+    initialView?: [number, number, number];
     maps: {
         [key:string]: PixelCRSOptions['unitToPixel']
     }
@@ -180,6 +182,7 @@ export class FloWideMap<S = {}> extends React.PureComponent<ComponentProps,S>  {
                     master={true}
                     syncService={this.mapSyncService}
                     id={'master'}
+                    initialView={config.initialView}
                     config={config.masterMap}
                 />
             </div>
@@ -214,7 +217,10 @@ class MapComponent extends React.Component<MapProps> {
             disableMapControls(this.map);
             this.props.syncService.addSlave(this.map,this.props.id);
         } else {
-            this.map.setView(crs.getMaxBounds().getCenter(),0);
+            if (this.props.initialView)
+                this.map.setView([this.props.initialView[0],this.props.initialView[1]],this.props.initialView[2])
+            else
+                this.map.setView(crs.getMaxBounds().getCenter(),0);
             this.props.syncService.setMaster(this.map);
         }
         

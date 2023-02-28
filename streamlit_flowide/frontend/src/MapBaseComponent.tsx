@@ -108,10 +108,6 @@ export default class MapBaseComponent<S = {}> extends React.PureComponent<Compon
                 preferCanvas:true,
             }).setView([0,0],4);
 
-            if (this.mapConfig?.initialView) {
-                this.map.setView([this.mapConfig.initialView[0],this.mapConfig.initialView[1]],this.mapConfig.initialView[2])
-            }
-
             if(config.gpsTransform)
                 this.gpsTransformMatrix = fromArray3x3(config.gpsTransform)
             else
@@ -138,6 +134,10 @@ export default class MapBaseComponent<S = {}> extends React.PureComponent<Compon
                 } else {
                     this.map.setView([this.mapConfig.initialView[0],this.mapConfig.initialView[1]],this.mapConfig.initialView[2])
                 }
+            }
+
+            if (this.mapConfig?.initialView) {
+                this.map.setView([this.mapConfig.initialView[0],this.mapConfig.initialView[1]],this.mapConfig.initialView[2])
             }
 
             this.isRendered = true;
