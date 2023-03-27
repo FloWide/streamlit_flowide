@@ -13,7 +13,8 @@ eggs/
 .eggs/
 *.egg-info/
 *.egg
-
+*.build
+*.lock
 # Unit test / coverage reports
 .coverage
 .coverage\.*
