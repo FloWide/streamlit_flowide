@@ -36,3 +36,4 @@ config = {
 }
 
 FloWideMap(config,js.typescript(js.relative_file("mymap.ts")))
+FloWideUpdateMap(config,None,[])

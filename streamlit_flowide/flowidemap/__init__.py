@@ -4,7 +4,11 @@ from .._common import variables
 
 from .. import javascript_hooks as js
 import os
-from streamlit import cache,spinner
+try:
+    from streamlit import cache_resource
+    cache = cache_resource
+except ImportError:
+    from streamlit import cache
 
 _RELEASE = variables.RELEASE
 
