@@ -37,3 +37,30 @@ config = {
 
 FloWideMap(config,js.typescript(js.relative_file("mymap.ts")))
 FloWideUpdateMap(config,None,[])
+FloWidePlayBack(config,master=[
+    {
+        "time":10000,
+        "event":{
+            "name":'CREATE_MARKER',
+            "args":{
+                "id":"1",
+                "position":[0,0],
+                "scale":0.8,
+                "trackColor":"blue",
+                "simple":True
+            }
+        }
+    },
+    {
+        "time":15000,
+        "event":{
+            "name":'FLO_ICON_STATUS_TEXT_ADD',
+            "args":{
+                "id":"1",
+                "text":"Hi",
+                "textColor":"black",
+                "backgroundColor":"yellow"
+            }
+        }
+    }
+])
