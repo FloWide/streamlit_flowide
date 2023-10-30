@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "streamlit-flowide"
+version = "0.0.0"
+description = "A collection of custom components for streamlit"
+authors = ["FloWide Ltd. <contact@flowide.net>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "streamlit_flowide"}]
+include = ["streamlit_flowide/frontend/build/**/*", "streamlit_flowide/javascript_hooks/types/**/*", "streamlit_flowide/flowidemap/modules/**/*"]
+
+
+[tool.poetry.dependencies]
+python = "^3.10"
+streamlit = "^1.20.0"
+filelock = "^3.13.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry_bumpversion.file."streamlit_flowide/_version.py"]
